@@ -1,0 +1,38 @@
+{% if userOwnerBlogs | length > 0 %}
+    {% for blog in userOwnerBlogs %}
+        {% set hasImage = (blog.media['thumb'] is defined and blog.media['thumb']['path'] != '') ? 1 : 0 %}
+	    <div class="col-third">
+	            <a href="{{blog.url}}" class="channel-card channel-card__{{ Html.encode(blog.title)|lower }} {% if not hasImage %}channel__no-image{% endif %}" 
+	               {% if hasImage %}style="background-image: url('{{_Media.getMediaUrl(blog.media['thumb'], 90, 90)}}');"{% endif %}>
+	                <div class="channel-card__overlay">
+	                    <div class="channel-card__content_wrap">
+	                        <div class="channel-card__content">
+	                            <div class="channel-card__channel-wrap">
+	                                <div class="channel-card__channel">{{blog.title | raw}}</div>
+	                            </div>
+	                            <div class="channel-card__headline">{{Helper.shortStr(blog.shortDescription, 80, false, true) | raw}}</div>
+	                        </div>
+	                    </div>
+                                    <div class="channel-card__footer">
+                                        {% set buttonText = 'Follow' %}
+                                        {% set btnStatus = "follow" %}
+                                        {% set btnClass = "" %}
+                                        {% if not _User.isGuest() and _User.isUserFollowing('blog', blog.id) %}
+                                            {% set buttonText = 'Unfollow' %}
+                                            {% set btnStatus = "unfollow" %}
+                                            {% set btnClass = "active" %}
+                                        {% endif %}
+                                        {% if not _User.isGuest()  %}
+                                            <button class="channel-card__footer_follow-button FollowUnfollowBlog {{btnClass}}" data-guid="{{blog.guid}}" data-status="{{btnStatus}}">{{buttonText}}</button>
+                                        {% else %}
+                                            <button class="channel-card__footer_follow-button forceLoginModal" href="">Follow</button>
+                                        {% endif %}
+                                        <button class="channel-card__footer_visit-button" onClick="window.location='{{blog.url}}';">Visit</button>
+                                    </div>
+	                </div>
+	            </a>
+	    </div>
+    {% endfor %}
+{% else %}
+    <p class="no-data">No blog found.</p>
+{% endif %}

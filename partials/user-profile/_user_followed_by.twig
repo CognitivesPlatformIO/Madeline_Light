@@ -1,0 +1,37 @@
+    {% if myFollowers | length > 0 %}
+        {% for follower in myFollowers %}
+            {% set buttonClass = '' %}
+            {% set btnStatus = "follow" %}
+            {% set btnTxt = "Follow" %}
+            {% if not _User.isGuest() and _User.isUserFollowing('writer', follower.follower_id) %}
+                {% set buttonClass = 'active' %}
+                {% set btnStatus = "unfollow" %}
+                {% set btnTxt = "Unfollow" %}
+            {% endif %}  
+            {% set followerImage = ''%}
+                {% if follower.follower['media']['path'] is defined and follower.follower['media']['path'] is not empty %}
+                    {% set followerImage = _Media.getMediaUrl(follower.follower['media'], 80, 80, {crop: 'thumb', gravity: 'face', type:'user'})%}
+                {% else %}
+                     {% set followerImage = _Media.getMediaUrl('', 80, 80, {crop: 'thumb', gravity: 'face', type:'user'})%}
+                {% endif %}
+                
+                <div class="writer-item">
+                    <div class="writer-item__profile">
+                            <div class="writer-item__image" style="background-image: url('{{followerImage}}');"></div>
+                            <div class="writer-item__text-wrap">
+                                    <div class="writer-item__name">{{follower.follower['name'] | raw}}</div>
+                                    <div class="writer-item__description">{{follower.follower['bio'] | raw}}</div>
+                            </div>
+                    </div>
+                    {% if not _User.isGuest() %}
+                        {% if( _User.getId() != follower.follower_id)%}
+                            <a class="writer-item__follow-button FollowUnfollowWriter {{buttonClass}}" data-guid="{{follower.follower['guid']}}" data-status="{{btnStatus}}">{{btnTxt}}</a>
+                        {% endif %}
+                    {% else %}
+                        <a class="writer-item__follow-button active forceLoginModal">Follow</a>
+                    {% endif %}
+                </div>
+               
+        {% endfor %}
+    {% endif %}
+

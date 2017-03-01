@@ -1,0 +1,71 @@
+.side-navigation {
+  background-color: #fff;
+  visibility: hidden;
+  padding: 0px;
+  position: absolute;
+  z-index: 100000;
+  box-shadow: 0px 0px 100px 0px rgba(0, 0, 0, 0.8);
+  overflow-y: scroll;
+  &__search {
+    background-image: url(/static/images/icons/search-magnifying-glass.svg);
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    border: none;
+    border-bottom: 1px $gray-color solid;
+    display: block;
+    font-size: 20px;
+    line-height: 80px;
+    height: 80px;
+    padding: 0px 30px;
+    width: 100%;
+  }
+  &__list {
+    border-bottom: 1px $gray-color solid;
+    list-style: none;
+    margin: 0px;
+    //padding: 30px 0px;
+
+  }
+  &__item {
+    &--dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+  }
+  &__link {
+    color: $body-text;
+    display: block;
+		font-weight: 400;
+		font-size: 17px;
+		padding: 14px 28px 14px;
+		line-height: 20px;
+		font-family: "Droid Serif", serif;
+    cursor: pointer;
+		&:hover {
+			background-color: #e6f3f5;
+		}
+  }
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    display: none;
+    left: 30px;
+    background-color: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    width: 180px;
+    padding: 10px 10px 0px;
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 0px 0px 4px 4px;
+    &_item {
+      @include text-sm($font-multiplier: 0.78, $color: $body-text);
+      cursor: pointer;
+      display: block;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    &.active {
+      display: block;
+    }
+  }
+}

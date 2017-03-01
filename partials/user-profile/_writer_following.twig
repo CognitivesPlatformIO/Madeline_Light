@@ -1,0 +1,36 @@
+    {% if myFollowings | length > 0 %}
+            {% for writer in myFollowings %}
+                {% set buttonClass = '' %}
+                {% set btnStatus = "follow" %}
+                {% set btnTxt = "Follow" %}
+                {% if not _User.isGuest() and _User.isUserFollowing('writer', writer.following['id']) %}
+                    {% set buttonClass = 'active' %}
+                    {% set btnStatus = "unfollow" %}
+                    {% set btnTxt = "Unfollow" %}
+                {% endif %}
+                
+                {% set writerImage = '' %}
+                {% if writer.following['media']['path'] is defined and writer.following['media']['path'] is not empty %}
+                    {% set writerImage = _Media.getMediaUrl(writer.following['media'], 80, 80, {crop: 'thumb' , gravity:'face', type:'user'})%}
+                {% else %}
+                    {% set writerImage = _Media.getMediaUrl('', 80, 80, {crop: 'thumb' , gravity:'face', type:'user'})%}
+                {% endif %}
+                <div class="writer-item">
+                    <div class="writer-item__profile">
+                            <div class="writer-item__image" style="background-image: url('{{writerImage}}');"></div>
+                            <div class="writer-item__text-wrap">
+                                    <div class="writer-item__name">{{writer.following['name']}}</div>
+                                    <div class="writer-item__description">{{writer.following['bio']}}</div>
+                            </div>
+                    </div>
+                    {% if not _User.isGuest() %}
+                        {% if( _User.getId() != writer.following['id'])%}
+                            <a class="writer-item__follow-button FollowUnfollowWriter {{buttonClass}}" data-guid="{{writer.following['guid']}}" data-status="{{btnStatus}}">{{btnTxt}}</a>
+                        {% endif %}
+                    {% else %}
+                        <a class="writer-item__follow-button active forceLoginModal">Follow</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+    {% endif %}
+

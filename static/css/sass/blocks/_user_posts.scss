@@ -1,0 +1,86 @@
+/*! Layout User Post Page
+-------------------------*/
+
+.userProfilePost_page {
+    margin:40px 0 50px;
+    
+    .row {
+        margin-left:-15px;
+        margin-right:-15px;
+    }
+    
+    #userprofile-sidebar {
+        border-bottom:0px none;
+    }
+
+    .sub-header {
+        margin-bottom:20px;
+    }
+
+    #news-posts {
+        overflow:hidden;
+
+        .section__content {
+            width:100%;
+            margin:0px;
+            border-top:0px none;
+        }
+        .row {
+
+            .col-third {
+                width:50%;
+            }
+        }
+    }
+}
+
+
+
+.loader {
+    height:60px;
+    max-width:100%;
+    margin-top:30px;
+    box-sizing:border-box;
+}
+.hide {
+    display:none!important;
+}
+
+.loader span {
+	color:darken($blue, 30%);
+	font-size:($baseFontSize * 1);
+}
+.loader .one {
+	opacity:0;
+	margin-left:3px;
+	-webkit-animation:dot 1.3s infinite;
+	-webkit-animation-delay:0.0s;
+	animation:dot 1.3s infinite;
+	animation-delay:0.0s;
+}
+.loader .two {
+	opacity:0;
+	margin-left:1px;
+	-webkit-animation:dot 1.3s infinite;
+	-webkit-animation-delay:0.2s;
+	animation:dot 1.3s infinite;
+	animation-delay:0.2s;
+}
+.loader .three {
+	opacity:0;
+	margin-left:1px;
+	-webkit-animation:dot 1.3s infinite;
+	-webkit-animation-delay:0.3s;
+	animation:dot 1.3s infinite;
+	animation-delay:0.3s;
+}
+@-webkit-keyframes dot {
+      0%{@include opacity(0);}
+     50%{@include opacity(0);}
+    100%{@include opacity(1);}
+}
+@keyframes dot {
+      0%{@include opacity(0);}
+     50%{@include opacity(0);}
+    100%{@include opacity(1);}
+}

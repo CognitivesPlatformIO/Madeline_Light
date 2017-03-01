@@ -1,0 +1,173 @@
+// Responsive sizes
+@mixin mobile {
+	@media (min-width:$screen-xs) {
+		@content;
+	}
+}
+
+@mixin tablet {
+	@media (min-width:$screen-sm) {
+		@content;
+	}
+}
+
+@mixin tablet-lg {
+	@media (min-width:992px) {
+		@content;
+	}
+}
+
+@mixin desktop-sm {
+	@media (min-width:$screen-md-min) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@media (min-width:$screen-md) {
+		@content;
+	}
+}
+
+@mixin desktop-lg {
+	@media (min-width:$screen-lg) {
+		@content;
+	}
+}
+
+// Default mixins for application
+
+
+// Default image settings when used as a css background
+@mixin image_background {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+}
+
+
+// Default image for Dropzone
+@mixin image_background_Dropzone {
+	background-image:url("/static/images/spritemap@2x.png");
+	background-position:center center;
+	background-repeat:no-repeat;
+	background-size:428px auto;
+}
+
+// Default image for Dropzone
+@mixin image_background_DropzoneMessage {
+	background-image:url("/static/images/uploadsprite.svg");
+	background-position:center center;
+	background-repeat:no-repeat;
+	background-size:428px auto;
+}
+
+// Default image settings for Facebook
+@mixin image_background_social_facebook {
+	background-image:url('/static/images/icons/social-facebook.svg');
+}
+@mixin image_background_facebook_white {
+	background-image:url('/static/images/icons/facebook-white.svg');
+}
+
+// Default image settings for Twitter
+@mixin image_background_social_twitter {
+	background-image:url('/static/images/icons/social-twitter.svg');
+}
+@mixin image_background_twitter_white {
+	background-image:url('/static/images/icons/twitter-white.svg');
+}
+
+// Default image settings for Twitter
+@mixin image_background_linkedin_twitter {
+	background-image:url('/static/images/icons/social-linkedin.svg');
+}
+@mixin image_background_linkedin_white {
+	background-image:url('/static/images/icons/linkedin-white.svg');
+}
+
+
+// Default image settings for Googleplus
+@mixin image_background_social_googleplus {
+	background-image:url('/static/images/icons/social-google-plus.svg');
+}
+@mixin image_background_googleplus_white {
+	background-image:url('/static/images/icons/google-plus-white.svg');
+}
+
+// Default image settings for Instagram
+@mixin image_background_social_instagram {
+	background-image:url('/static/images/icons/category-instagram.svg');
+}
+
+// Default image settings for Youtube
+@mixin image_background_social_youtube {
+	background-image:url('/static/images/icons/youtube.svg');
+}
+
+// Default image settings for Like
+@mixin image_background_social_likes {
+	background-image:url('/static/images/icons/social-like.svg');
+}
+
+// Default image settings for email
+@mixin image_background_social_email {
+	background-image:url('/static/images/icons/mail.svg');
+}
+// Default image settings for Comment
+@mixin image_background_social_comment {
+	background-image:url('/static/images/icons/social-comment.svg');
+}
+
+// Default image settings for Comment
+@mixin image_background_social_share {
+	background-image:url('/static/images/icons/share.svg');
+}
+
+// Base font
+@mixin base_font {
+	color:$body-text;
+	font-family:$base-font-family;
+	letter-spacing:0.5px;
+}
+
+@mixin text-sm($letter-spacing: 0px, $color: $body-text, $font-weight: 600, $line-height: 1.38, $font-multiplier: 0.72) {
+	font-size: ($baseFontSize * $font-multiplier);
+	font-weight: $font-weight;
+	line-height: $line-height;
+	letter-spacing: $letter-spacing;
+	color: $color;
+}
+
+// Lovely mixins for making all your font needs delightful
+@mixin text-md($letter-spacing: -0.0135em, $color: $body-text, $font-weight: 400, $line-height: 1.46, $font-multiplier: 1) {
+	font-size: ($baseFontSize * $font-multiplier);
+	font-weight: $font-weight;
+	line-height: $line-height;
+	letter-spacing: $letter-spacing;
+	color: $color;
+}
+
+@mixin text-lg($letter-spacing: -0.014em, $color: $body-text, $font-weight: 700, $line-height: 1.21,$font-multiplier-sm: 1.8, $font-multiplier: 2.5) {
+	font-size: ($baseFontSize * $font-multiplier-sm);
+	@include tablet {
+		font-size: ($baseFontSize * $font-multiplier);
+	}
+	font-weight: $font-weight;
+	line-height: $line-height;
+	letter-spacing: $letter-spacing;
+	color: $color;
+}
+
+// Helper text classes for quick bootstrapping of fonts
+.text-sm {
+	@include text-sm;
+}
+
+.text-md {
+	@include text-md;
+}
+
+.text-lg {
+	@include text-lg;
+}

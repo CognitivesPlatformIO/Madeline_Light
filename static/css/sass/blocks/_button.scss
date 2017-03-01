@@ -1,0 +1,178 @@
+.button {
+  background: transparent;
+  border: 1px solid #C5C8D2;
+  border-radius: 2px;
+  padding: 8px 20px 8px 20px;
+  display: inline-block;
+  cursor: pointer;
+  @include text-sm();
+  @include transition(all 0.4s ease);
+  &:focus {
+    color: $white;
+  }
+  &__follow {
+    color: #9DB7BF;
+    background: #FFF;
+    border-radius: 12px;
+    padding: 2px 9px 2px;
+    //max-width: 62px;
+    border: 1px solid transparent;
+		font-size: 12px;
+    &:hover, &:active {
+      background: #fff;
+      border: 1px solid #9DB7BF;
+      color: #9DB7BF;
+    }
+    &--reverse {
+      background: #9DB7BF;
+      border: 1px solid transparent;
+      color: #FFF;
+      &:hover, &:active {
+        background: #fff;
+        border: 1px solid #9DB7BF;
+        color: #9DB7BF;
+      }
+    }
+  }
+  &__share {
+    @extend .button__follow;
+    position: relative;
+  }
+  &__profile-follow {
+    margin-bottom: 22px;
+    border-radius: 100px;
+    border: none;
+    background-color: #576b74;
+    color: white;
+    padding: 8px 40px 10px;
+    &:hover {
+      color: #576b74;
+      background-color: $white;
+    }
+  }
+}
+
+.profile__button-wrap {
+  display: flex;
+  > a:first-child {
+    margin-right: 5px;
+  }
+}
+
+.header_actions {
+  &__comments, &__share {
+    margin-top: 12px;
+    padding-left: 35px;
+    @include transition(all 0.4s ease);
+    background-color: $white;
+    background-repeat: no-repeat;
+    margin-right: 1px;
+    background-position: 13px 10px;
+    &:hover {
+      color: rgb(65, 83, 90);
+      border: 1px solid rgb(65, 83, 90);
+    }
+  }
+  &__comments {
+    background-image: url(/static/images/icons/comment-icon.svg);
+  }
+  &__share {
+    background-image: url(/static/images/icons/share-icon.svg);
+    border-radius: 0;
+    position: relative;
+    .share-popup .share-popup__close {
+      width: auto;
+      margin: 0;
+    }
+  }
+}
+
+.loadMoreArticles {
+  border: 1px solid #576b74;
+  &:hover {
+    border: 1px solid #576b74;
+  }
+  i {
+    margin-right: 10px;
+  }
+}
+
+.user-header__comments, .user-header__share {
+  height:32px;
+  padding: 6px 20px 8px 20px;
+  max-width:none;
+  max-height: 32px;
+}
+
+
+.account-button {
+  @include text-md($color: $white, $font-multiplier: 0.778, $letter-spacing: 0px, $font-weight: 600);
+  @include transition(all 0.4s ease);
+  cursor: pointer;
+  display: inline-block;
+  padding: 8.5px 17px 9.5px;
+  border: 0px solid #7A83A3;
+  background-color: #5F6D9A;
+  box-shadow: inset 0px -3px 0px 0px rgba(0,0,0,0.20);
+  border-radius: 2px;
+  &.error {
+    background-color: $account-modal-red;
+    &:hover {
+      background-color: rgba($account-modal-red, 0.7);
+    }
+  }
+  .fa {
+    position: relative;
+    font-size: 16px;
+    margin-left: -5px;
+    margin-right: 7px;
+    top: 1px;
+    &:hover {
+      color: $white!important; // Overriding social icon hover colors.
+    }
+  }
+  &:hover {
+    background-color: rgba(#5F6D9A,0.80);
+  }
+  &--sm {
+    padding: 5px 17px 8px;
+    background-color: $account-modal-highlight;
+    &:hover {
+      background-color: rgba($account-modal-highlight, 0.7);
+    }
+  }
+  &--save {
+    @include text-md($color: $white, $font-multiplier: 0.889, $letter-spacing: 0px);
+    background: $account-modal-green;
+    border: 1px solid rgba($black, 0);
+    padding: 9px 17px;
+    border-bottom: none;
+    &:hover {
+      background-color: rgba($account-modal-green, 0.7);
+    }
+    &.active {
+      background: $white;
+      color: #7A83A3;
+      border: 1px solid #7A83A3;
+      padding: 9px 17px 8px;
+      box-shadow: inset 0px -3px 0px 0px rgba(#C0C7DB,1);
+    }
+  }
+  &--image {
+    &.active {
+      background-color: $account-modal-green;
+    }
+  }
+  &--outline {
+    background: $white;
+    color: #7A83A3;
+    border: 1px solid #7A83A3;
+    box-shadow: inset 0px -3px 0px 0px rgba(#C0C7DB,1);
+    &:hover {
+      background-color: $account-modal-red;
+      border-color: $account-modal-red;
+      color: $white;
+      box-shadow: inset 0px -3px 0px 0px rgba($black,0.3);
+    }
+  }
+}

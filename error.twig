@@ -1,0 +1,17 @@
+{{ set(this, 'title', name) }}
+{% set networkData = _Network.getNetworkData() %}
+{% set articles = _Article.getPopularArticles({ limit: 4}) %}
+<div class="not-found">
+    <h1 class="not-found__headline">{{name}}</h1>
+    <p class="not-found__sub-headline">{{_AppHelper.translator('app', message)}}</p>
+    {% if articles|length > 0 %}
+        <h2 class="additional-articles__header">You might be interested in ...</h2>
+        <div class="card-container">
+            {% for i in 0..3 %}
+                {% if articles[i]is defined %}
+                    {{this.render('partials/_single-article.twig', {article: articles[i], 'position': (i+1), containerClass: 'col-quarter'}) | raw}}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

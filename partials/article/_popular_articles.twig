@@ -1,0 +1,8 @@
+
+{% if popularArticles|length > 0 %}
+    <div class="home">
+        {% for article in popularArticles %}
+            {{this.render('../_single-article.twig', {article: article, 'position': 0, containerClass: 'col-quarter'}) | raw}}
+        {% endfor %}
+    </div>
+{% endif %}

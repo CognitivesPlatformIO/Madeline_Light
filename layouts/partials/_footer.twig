@@ -1,0 +1,125 @@
+{% set blogInfo = _Blog.getHomeBlogSettings()%}
+
+<footer class="footer">
+    <div class="footer__container">
+        <div class="footer__info-mobile">
+            {% set logo = network.templatePath~'/static/images/themeLogo.svg'%}
+                {% set logoUrl = network.networkLogoLinkUrl %}
+                {% if network.logoMedia | length > 0 %}
+                    {% set logo = _Media.getMediaUrl(network.logoMedia, 177, 65, {'crop': 'limit'} )%}
+                {% endif %}
+            <a href="{{logoUrl}}" class="footer__logo"><img src="{{logo}}"/></a>
+            <div class="footer__social-links">
+                {% if blogInfo.social['twitter'] is not empty %}
+                    <a href="{{blogInfo.social['twitter']}}" target="_blank"><i class="fa fa-twitter"></i></a>
+                {% endif %}
+                {% if blogInfo.social['youtube'] is not empty %}
+                    <a href="{{blogInfo.social['youtube']}}" target="_blank"><i class="fa fa-youtube-play"></i></a>
+                {% endif %}
+                {% if blogInfo.social['google'] is not empty %}
+                    <a href="{{blogInfo.social['google']}}" target="_blank"><i class="fa fa-google-plus"></i></a>
+                {% endif %}
+                {% if blogInfo.social['facebook'] is not empty %}
+                    <a href="{{blogInfo.social['facebook']}}" target="_blank"><i class="fa fa-facebook-f"></i></a>
+                {% endif %}
+                {% if blogInfo.social['vimeo'] is not empty %}
+                    <a href="{{blogInfo.social['vimeo']}}" target="_blank"><i class="fa fa-vimeo"></i></a>
+                {% endif %}
+                {% if blogInfo.social['linkedin'] is not empty %}
+                    <a href="{{blogInfo.social['linkedin']}}" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+                {% endif %}
+                {% if blogInfo.social['pinterest'] is not empty %}
+                    <a href="{{blogInfo.social['pinterest']}}" target="_blank"><i class="fa fa-pinterest-p"></i></a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="footer__desktop">
+            <div class="footer__left">
+                {% set logo = network.templatePath~'/static/images/themeLogo.svg'%}
+                {% set logoUrl = network.networkLogoLinkUrl %}
+                {% if network.logoMedia | length > 0 %}
+                    {% set logo = _Media.getMediaUrl(network.logoMedia, 200, 45, {'crop': 'limit'} )%}
+                {% endif %}
+                <a href="{{logoUrl}}" class="footer__logo"><img src="{{logo}}" width="100" /></a>
+                <div class="footer__navigation">
+                    <div class="header__navigation-row">
+                        <ul class="header__navigation-list">
+                            <ul class="header__navigation-list">
+                                {% set menuItems = blogData.blogHeaderMenu %}
+                                {% for i in 0..4 %}
+                                    {% if menuItems[i] is defined %}
+                                        {% set menuItem = menuItems[i] %}
+                                        <li class="header__navigation-item">
+                                            <a href="{{menuItem.link}}" class="header__navigation-link header__navigation-item--{{ menuItem.blogTitle|lower }}">
+                                                {{ ((menuItem.label is empty) ? ((menuItem.pageTitle is empty)? menuItem.blogTitle : menuItem.pageTitle) : menuItem.label )}}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if menuItems[5] is defined %}
+                                    <li class="header__navigation-item dropdown">
+                                        <a href="#" class="header__navigation-link dropdown-toggle" type="button" id="dropdown1" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                                            More <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdown1">
+                                            {% for i in 5..(menuItems |length - 1)%}
+                                                {% set menuItem = menuItems[i] %}
+                                                <li class="header__navigation-item--{{ menuItem.blogTitle|lower }}">
+                                                    <a href="{{ entry.url }}" class="">
+                                                        {{ ((menuItem.label is empty) ? ((menuItem.pageTitle is empty)? menuItem.blogTitle : menuItem.pageTitle) : menuItem.label )}}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__right">
+                <div class="footer__additional-links">
+                    <div class="footer__social-links">
+                        {% if blogInfo.social['twitter'] is not empty %}
+                            <a href="{{blogInfo.social['twitter']}}" target="_blank"><i class="fa fa-twitter"></i></a>
+                        {% endif %}
+                        {% if blogInfo.social['youtube'] is not empty %}
+                            <a href="{{blogInfo.social['youtube']}}" target="_blank"><i class="fa fa-youtube-play"></i></a>
+                        {% endif %}
+                        {% if blogInfo.social['google'] is not empty %}
+                            <a href="{{blogInfo.social['google']}}" target="_blank"><i class="fa fa-google-plus"></i></a>
+                        {% endif %}
+                        {% if blogInfo.social['facebook'] is not empty %}
+                            <a href="{{blogInfo.social['facebook']}}" target="_blank"><i class="fa fa-facebook-f"></i></a>
+                        {% endif %}
+                        {% if blogInfo.social['vimeo'] is not empty %}
+                            <a href="{{blogInfo.social['vimeo']}}" target="_blank"><i class="fa fa-vimeo"></i></a>
+                        {% endif %}
+                        {% if blogInfo.social['linkedin'] is not empty %}
+                            <a href="{{blogInfo.social['linkedin']}}" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+                        {% endif %}
+                        {% if blogInfo.social['pinterest'] is not empty %}
+                            <a href="{{blogInfo.social['pinterest']}}" target="_blank"><i class="fa fa-pinterest-p"></i></a>
+                        {% endif %}
+                    </div>
+                    {% set menuItems = blogData.blogFooterMenu %}
+                    {% for i in 0..(menuItems|length - 1) %}
+                        {% if menuItems[i] is defined %}
+                            {% set menuItem = menuItems[i] %}
+                            <li class="header__navigation-item">
+                                <a href="{{menuItem.link}}" class="footer__additional-links">
+                                    {{ ((menuItem.label is empty) ? ((menuItem.pageTitle is empty)? menuItem.blogTitle : menuItem.pageTitle) : menuItem.label )}}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer__container">
+        <div class="footer__copyright">© All rights reserved</div>
+    </div>
+</footer>

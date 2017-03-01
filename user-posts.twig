@@ -1,0 +1,55 @@
+{{ set(this, 'title', 'User Articles') }}
+{% set networkData = _Network.getNetworkData() %}
+{% set profileImage =_Media.getMediaUrl(user.media, 500, 500, {crop: 'thumb', gravity: 'face', type:'user'} )%}
+{{this.registerJs("UserArticlesController.load()")}}
+		<div class="profile">
+
+			<div class="profile__section">
+				<div class="profile-sidebar">
+					<div class="profile-sidebar__picture" {% if profileImage is not empty %}  style="background-image:url({{profileImage}});"{% endif %}></div>
+					<div class="profile-sidebar__name">{{Html.encode(user.firstname)}} {{Html.encode(user.lastname)}}</div>
+					<span class="profile-sidebar__description">{{Html.decode(user.bio) | raw }}</span>
+					{% if _User.isGuest() %}
+					<a href="javascript:void(0);" class="button button__profile-follow forceLoginModal">Follow</a>
+					{% endif %}
+					{% if not _User.isGuest() and _User.getId() != user.id %}
+                                            {% set isUserFollowing = _User.isUserFollowing('user', user.id)  %}
+                                            <div class="button-set">
+                                                <a href="javascript:void(0)" class="button green FollowProfileUser" data-guid="{{user.guid}}" data-status="{% if isUserFollowing == 'TRUE' %}unfollow{% else %}follow{% endif %}"><i class="fa fa-star"></i>{% if isUserFollowing == 'TRUE' %} Unfollow {% else %} Follow {% endif %}</a>
+                                                <a href="/profile/{{Html.encode(user.username)}}" class="button green" ><i class="fa fa-star"></i>View Profile</a>
+                                            </div>
+					{% endif %}
+					<div class="social-icon_wrap--white">
+						<i class="fa fa-google-plus"></i>
+						<i class="fa fa-facebook"></i>
+						<i class="fa fa-twitter"></i>
+					</div>
+				</div>
+				<div class="profile__activity">
+					<div class="profile__contributions-title">
+						<img class="profile__title_icon" src="{{networkData.templatePath}}/static/images/icons/pencil.svg" alt="pencil icon">
+						<span class="profile__title">ARTICLES</span>
+                                        </div>
+					<div class="profile__dark-separator"></div>
+					<div id="userArticleContainer" class="profile__contributions ajaxArticles" data-total-count="{{totalArticles}}" data-offset="0">
+                                            {% if userArticles | length > 0  %}
+                                                {% set i = 0 %}
+                                                {% for article in userArticles %} 
+                                                    {{this.render('//partials/_single-article.twig', {article: article, 'position': (i+1), containerClass: 'col-half', 'titleTruncateLength': 70}) | raw}}
+                                                    {%  set i = i + 1 %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <p class="no-data ">No article(s) created yet.</p>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class=" text-center has-margin-bottom-40">
+                                            {% if userArticles | length >= limit %}
+                                                <a href="javascript:void(0)" class="button loadMoreArticles button__profile-follow"><i class="fa fa-arrow-down"></i>Load More</a>
+                                            {% endif %}
+                                        </div> 
+				
+				</div>
+			</div>
+		</div>
+

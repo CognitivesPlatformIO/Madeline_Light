@@ -1,0 +1,10 @@
+.not-found {
+  text-align: center;
+  &__headline {
+    margin-bottom: 15px;
+    margin-top: 60px;
+  }
+  .additional-articles__header {
+    border-top: none;
+  }
+}

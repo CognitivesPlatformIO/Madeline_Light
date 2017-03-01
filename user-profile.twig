@@ -1,0 +1,95 @@
+{{ set(this, 'title', 'User Profile') }}
+{% set networkData = _Network.getNetworkData() %}
+{% set profileImage =_Media.getMediaUrl(userDetails.media, 500, 500, {crop: 'thumb', gravity: 'face', type:'user'} )%}
+{{this.registerJs("$('.loginModal').loginModal({});")}}
+<div class="profile">
+
+    <div class="profile__section">
+        <div class="profile-sidebar" >
+            <div class="profile-sidebar__picture" {% if profileImage is not empty %}  style="background-image:url({{profileImage}});"{% endif %}></div>
+            <div class="profile-sidebar__name">{{Html.encode(userDetails.firstname) | capitalize}} {{Html.encode(userDetails.lastname) | capitalize}}</div>
+            <div class="profile-sidebar__location">&nbsp;</div>
+            <span class="profile-sidebar__description">{{Html.decode(userDetails.bio) | raw }}</span>
+            {% if _User.isGuest() %}
+                <a href="{{_AppHelper.getLoginUrl()}}" class="button button__profile-follow forceLoginModal">Follow</a>
+            {% endif %}
+            {% if not _User.isGuest() and _User.getId() != userDetails.id %}
+                {% set isUserFollowing = _User.isUserFollowing('user', userDetails.id)  %}
+                <a href="javascript:void(0)" class="button button__profile-follow FollowProfileUser" 
+                   data-guid="{{userDetails.guid}}" data-status="{% if isUserFollowing == 'TRUE' %}unfollow{% else %} follow {% endif %}">{% if isUserFollowing == 'TRUE' %} Unfollow {% else %} Follow {% endif %}</a>
+            {% endif %}
+            {% if not _User.isGuest() and _User.getId() == userDetails.id %}
+                <a href="{{_AppHelper.getEditProfileUrl()}}" class="button button__profile-follow">Edit profile</a>
+            {% endif %}
+            <div class="social-icon_wrap--white">
+                <a href="mailto:{{userDetails.email}}"><i class="fa fa-envelope"></i></a>
+                <!--<i class="fa fa-google-plus"></i>
+                <i class="fa fa-facebook"></i>
+                <i class="fa fa-twitter"></i>-->
+            </div>
+        </div>
+        {% if userOwnerBlogs | length > 0 or myBlogs | length > 0 or myFollowings | length > 0 or myFollowings | length > 0 or myFollowers | length > 0%}                
+            <div class="profile__activity">
+                {% if userOwnerBlogs | length > 0 %}
+                    <div class="profile__contributions-title">
+                        <img class="profile__title_icon" src="{{networkData.templatePath}}/static/images/icons/pencil.svg" alt="pencil icon">
+                        <span class="profile__title">CONTRIBUTES TO:</span>
+                    </div>
+                    <div class="profile__dark-separator"></div>
+                    <div class="profile__contributions">
+                        {{this.render('partials/user-profile/_user_blogs.twig', {userOwnerBlogs : userOwnerBlogs}) | raw }} 
+                    </div>
+                {% endif %}
+
+                {% if myBlogs | length > 0 or myFollowings | length > 0%}
+                    <div class="profile__light-separator"></div>
+                    <div class="profile__following-title">
+                        <img class="profile__title_icon" src="{{networkData.templatePath}}/static/images/icons/channels.svg" alt="pencil icon">
+                        <span class="profile__title">FOLLOWING:</span>
+                    </div>
+                    <div class="profile__light-separator"></div>
+                    <div class="profile__following">
+                        {{this.render('partials/user-profile/_user_following.twig', {myBlogs : myBlogs, myFollowings: myFollowings}) | raw }}
+                    </div>
+                {% endif %}
+
+                {% if myFollowings | length > 0 %}
+                    <div class="profile__light-separator"></div>
+                    <div class="profile__following-title">
+                        <img class="profile__title_icon" src="{{networkData.templatePath}}/static/images/icons/user-outline.svg" alt="user icon">
+                        <span class="profile__title">FOLLOWING WRITERS:</span>
+                    </div>
+                    <div class="profile__light-separator"></div>
+                    <div class="profile__following-writers">
+                        {{this.render('partials/user-profile/_writer_following.twig', {myFollowings: myFollowings}) | raw }}
+                    </div>
+                {% endif %}
+
+                {% if myFollowers | length > 0 %}
+                    <div class="profile__light-separator"></div>
+                    <div class="profile__following-title">
+                        <img class="profile__title_icon" src="{{networkData.templatePath}}/static/images/icons/user-outline.svg" alt="user icon">
+                        <span class="profile__title">USERS FOLLOWING YOU:</span>
+                    </div>
+                    <div class="profile__light-separator"></div>
+                    <div class="profile__following-you">
+                        {{this.render('partials/user-profile/_user_followed_by.twig', {myFollowers : myFollowers}) | raw }}
+                    </div>
+                {% endif %}
+
+            </div>
+        {% endif %}
+    </div>
+
+    {% if myArticles | length > 0 %}            
+        <h1 class="profile__heading">{{Html.encode(userDetails.firstname)}}'s Articles</h1>
+        <div class="home">
+            {% set i = 0%}
+            {% for article in myArticles %}  
+                {{this.render('//partials/_single-article.twig', {article: article, 'position': (i+1), 'containerClass': 'col-quarter'}) | raw}}
+                {% set i = i+1 %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+

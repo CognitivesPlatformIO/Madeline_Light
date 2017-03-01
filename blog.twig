@@ -1,0 +1,124 @@
+{% set blogInfo = _Blog.getBlog() %}
+{% set networkData = _Network.getNetworkData() %}
+
+{{ set(this, 'title', blogInfo.title) }}
+
+{% set limit = 10 %}
+{% set articlesArr = _Blog.getBlogFeed({'limit': limit, 'offset': 0}) %}
+{% set articles = articlesArr.articles %}
+
+{% set hasBlogImage = FALSE %}
+{% set blogImage = "" %}
+{% if blogInfo.media['cover']['id'] is not empty %}
+    {% set blogImage = _Media.getMediaUrl(blogInfo.media['cover'], 1160, 600, {gravity: 'north'}) %}
+    {% set hasBlogImage = TRUE %}
+{% endif %}    
+{% set hasBlogThumbImage = FALSE %}
+{% set blogThumbImage = "" %}
+{% if blogInfo.media['thumb']['path'] is not empty %}
+    {% set blogThumbImage = _Media.getMediaUrl(blogInfo.media['thumb'], 100, 100, {radius:'max', crop: 'thumb', gravity: 'face'}) %}
+    {% set hasBlogThumbImage = TRUE %}
+{% endif %}
+
+{{this.registerJs("HomeController.listing();")}}
+{{this.registerJs("HomeController.blog();")}}
+{% set blogOwnerImage = _Media.getMediaUrl(blogInfo.owner['media'], 180, 180, {crop:"thumb", radius:"max", gravity:"face", type: "user"}) %}
+
+<div class="blog">
+    <div class="blog__header">
+        <div class="blog__container">
+            <div class="blog__user-header">
+                <div class="blog__user-header__button-container blog__user-header__button-container--share">
+                    <div class="button button__share header_actions header_actions__share">
+                        Share  {{this.render('partials/article/_share-modal.twig', {url:blogInfo.url}) | raw }}
+                    </div>
+                </div>
+                <div class="blog__user-header__profile-container">
+                    <span class="blog__user-header__profile-image" {%if blogOwnerImage is not empty%}style="background-image:url('{{blogOwnerImage}}');"{%endif%} ></span>
+                    <a href="{{_AppHelper.getUserProfileUrl(blogInfo.owner['username'])}}" class="blog__user-header__profile-name">By {{blogInfo.owner['display_name'] | raw}}</a>
+                </div>
+
+                {% if not _User.isGuest %}
+                    {% set isUserFollowingBlog = _User.isUserFollowing('blog', blogInfo.id) %}
+                    {% if isUserFollowingBlog %}
+                        <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="unfollow"  data-guid="{{blogInfo.guid}}">
+                            <span class="button button__blog-follow">Following</span>
+                        </a>
+                    {% else %}
+                        <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="follow"  data-guid="{{blogInfo.guid}}">
+                            <span class="button button__blog-follow">Follow</span>
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container forceLoginModal">
+                        <span class="button button__blog-follow loginModal">Follow</span>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="blog__heading-container" {%if blogImage is not empty%}style="background-image:url('{{blogImage}}');background-size: cover;"{%endif%}>
+                <div class="blog__heading">
+                    <h1 class="blog__title">{{blogInfo.title | raw}}</h1>
+                    <span class="blog__description">{{blogInfo.shortDescription | raw}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-container ajaxArticles" data-existing-nonpinned-count="{{articlesArr.existingNonPinnedCount}}" data-offset="{{limit}}">
+        {% if articles[0] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[0], 'position': 1, containerClass: 'col-full'}) | raw}}
+        {% endif %}
+
+        {% if articles[1] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[1], 'position': 2, containerClass: 'col-third'}) | raw}}
+        {% endif %}
+
+        {% if articles[2] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[2], 'position': 3, containerClass: 'col-third'}) | raw}}
+        {% endif %}
+
+        {% if articles[3] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[3], 'position': 4, containerClass: 'col-third'}) | raw}}
+        {% endif %}
+
+        {% if articles[4] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[4], 'position': 5, containerClass: 'col-half'}) | raw}}
+        {% endif %}
+
+        {% if articles[5] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[5], 'position': 6, containerClass: 'col-half'}) | raw}}
+        {% endif %}
+
+        {% if articles[6] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[6], 'position': 7, containerClass: 'col-quarter'}) | raw}}
+        {% endif %}
+
+        {% if articles[7] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[7], 'position': 8, containerClass: 'col-quarter'}) | raw}}
+        {% endif %}
+
+        {% if articles[8] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[8], 'position': 9, containerClass: 'col-quarter'}) | raw}}
+        {% endif %}
+
+        {% if articles[9] is defined %}
+            {{this.render('partials/_single-article.twig', {article: articles[9], 'position': 10, containerClass: 'col-quarter'}) | raw}}
+        {% endif %} 
+    </div>
+</div>
+
+{% if articles|length >= limit %}
+    <div class="row text-center" style="margin-top:25px;">            
+        <a href="javascript:void(0)" class="button loadMoreArticles button__profile-follow"><i class="fa fa-arrow-down"></i>Load More</a>
+    </div>
+{% endif %}
+
+{% set noDataCls = 'hide' %}
+{% if articles|length == 0 %}
+    {% set noDataCls = '' %}
+{% endif %}
+<div class="row text-center {{noDataCls}} NoArticlesMsg">
+    <p class="no-data text-center">No articles found.</p>  
+</div>    
+
+

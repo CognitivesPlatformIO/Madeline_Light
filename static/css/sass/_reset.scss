@@ -1,0 +1,122 @@
+:focus {
+  outline: none;
+}
+::selection {
+  background: $highlight-color;
+  color: $light-color;
+}
+::-moz-selection {
+  background: $highlight-color;
+  color: $light-color;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: $placeholder;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: $placeholder;
+  opacity: 1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: $placeholder;
+  opacity: 1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: $placeholder;
+}
+:placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+  color: $placeholder;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  background-color: $body-color;
+  color: $body-text;
+  font-family: $base-font-family;
+  font-size: 14px;
+  line-height: 24px;
+	// background: -moz-linear-gradient(rgba(164, 193, 205, 0.6) 0, rgba(138, 170, 184, 0) 630px);
+  // background: -webkit-linear-gradient(rgba(164, 193, 205, 0.6) 0, rgba(138, 170, 184, 0) 630px);
+	background: linear-gradient(rgba(164, 193, 205, 0.6) 0, rgba(138, 170, 184, 0) 630px);
+  background-position-y: 110px;
+	background-repeat: no-repeat;
+  @include desktop-sm {
+    background-position-y: 200px;
+  }
+}
+
+h1 {
+  @include text-lg();
+}
+h2 {
+  font-size: 22px;
+}
+h3 {
+  font-size: 18px;
+}
+h4 {
+  font-size: 16px;
+}
+h5 {
+  font-size: 14px;
+}
+h6 {
+  font-size: 12px;
+}
+
+p {
+  font-family: $text-font-family;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+a {
+  color: $dark-color;
+  text-decoration: none;
+  outline: none;
+  transition: color 0.4s, background-color 0.4s, border-color 0.4s;
+  border: none;
+}
+a:hover, a:focus, a:active {
+  color: $hover-color;
+  text-decoration: none!important;
+  transition: color 0.4s, background-color 0.4s, border-color 0.4s;
+  outline: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+fieldset, img {
+  border: 0;
+}
+ol, ul {
+  list-style: none;
+}
+caption, th {
+  text-align: left;
+}
+
+.img__full {
+  display: block;
+  height: auto;
+  margin: 0px auto 40px;
+  width: 100%;
+  @include desktop-sm {
+    width: $screen-md;
+  }
+}
+
+input[type=checkbox], input[type=radio] {
+  margin: 5px;
+  position: relative;
+  bottom: 1px;
+}

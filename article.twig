@@ -1,0 +1,115 @@
+{{ set(this, 'title', (Html.encode(article.title))) }}
+{% set noImageClass = ''%}
+{% if article.media | length <= 0 %}
+    {% set noImageClass = 'no-image'%}
+{% endif %}
+
+{% set network = _Network.getNetworkData() %}
+
+{% set publisher = {height: 60, width: 600, name: network.title, logo: ''} %}
+{% if network.logoMedia | length > 0 %}
+    {% set publisher = publisher|merge({logo:_Media.getMediaUrl(network.logoMedia, publisher.width, publisher.height, {'crop': 'lpad'} )})%}
+{% endif %}
+
+<div class="article article--technology {{noImageClass}}" itemscope itemtype="http://schema.org/NewsArticle">
+    <meta itemscope itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" itemid="{{article.url}}"/>
+    <meta itemprop="url" content="{{article.url}}">
+    <meta itemprop="dateModified" content="{{article.updatedAt}}">
+    {% if publisher.logo is not empty %}
+    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" content="{{publisher.name}}"/>
+        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+            <meta itemprop="url" content="{{publisher.logo}}"/>
+            <meta itemprop="width" content="{{publisher.width}}"/>
+            <meta itemprop="height" content="{{publisher.height}}"/>
+        </div>
+    </div>
+    {% endif%}
+    <div class="article__channel_wrap">
+        <div class="article__channel">{{article.label}}</div>
+    </div>
+    <h1 class="article__headline" itemprop="headline">{{ article.title}}</h1>
+    <div class="article__date" itemprop="datePublished">{{article.publishedDate}}</div>
+    <div class="article__header">
+        {% if network.thirdPartyIntegrations['disqus'] | length > 0 and network.thirdPartyIntegrations['disqus']['shortName'] != '' %}
+            <a href="#comments" class="button header_actions header_actions__comments article__header-item">{{article.total['comment']}} Comments</a>
+        {% endif %}
+        <div class="button header_actions header_actions__share article__header-item">Share
+            {{this.render('partials/article/_share-modal.twig', {network: network, url:article.url}) | raw }}
+        </div>
+        <a class="article__profile article__header-item" href="{{_AppHelper.getUserProfileUrl(article.createdBy['username'])}}">
+            {% set profileImage = _Media.getMediaUrl(article.createdBy['media'], 80, 80, {radius: 'max', gravity: 'face', 'crop': 'thumb', 'type' : 'user'}) %}
+            
+            <span class="article__userImage" style="background-image:url({{profileImage}})"></span>
+            <span class="article__author" itemprop="author">By <span itemprop="name">{{article.createdBy['displayName']}}</span></span>
+            {% set status = 'follow' %}
+            {% set text = 'Follow' %}
+            {% set userFollowClass = '' %}
+            {% if not _User.isGuest() and _User.isUserFollowing('writer', article.createdBy['id'])%}
+                {% set status = 'unfollow' %}
+                {% set text = 'Unfollow' %}
+                {% set userFollowClass = 'active' %}
+            {% endif %}
+            {% if _User.isGuest() %}
+                <span class="button button__follow button__follow--reverse forceLoginModal">Follow</span>
+            {% elseif article.createdBy['id'] != _User.getId() %}
+                <span class="button button__follow button__follow--reverse {{userFollowClass}} followArticleBtn" data-guid="{{article.createdBy['guid']}}" data-status="{{status}}">{{text}}</span>
+            {% endif%}
+        </a>
+    </div>
+    <div class="article__image">
+        <div class="slides">
+            {% for image in article.media %}
+                {% set embed = craft.embeddedAssets.fromAsset(image) %}
+                {% if embed is not null %}
+                    {% set image = embed %}
+                    {% set thumbnail = '//img.youtube.com/vi/' ~ embed.url|replace('/.+watch\\?v=(.+)/', '$1') ~ '/maxresdefault.jpg' %}
+                {% else %}
+                    {% set thumbnail = image.url %}
+                {% endif %}
+
+                <div class="slide" itemprop="image" itemscope itemtype="https://schema.org/ImageObject"  data-thumbnail="{{image.path}}" data-original="{{image.path}}" style="background-image: url('{{image.path}}')">
+                    <meta itemprop="url" content="{{image.path}}">
+                    <meta itemprop="height" content="{{image.height}}">
+                    <meta itemprop="width" content="{{image.width}}">
+                    {% if image.type == 'video' %} 
+                                {% set mediaUrl = "" %}
+                                {% if image.isSystemVideo == 'TRUE'%}
+                                    {% set mediaUrl = _Media.getMediaVideoUrl(image, 0, 0,{resource_type: 'video', format: 'mp4'})  %}
+                                {% endif %}
+                        <a href="javascript:void(0)" itemprop="video" class="video-overlay playVideo"  data-source="{{image.source}}"  data-url="{{mediaUrl}}" data-video-id="{{image.videoId}}" data-poster="{{image.path}}" data-caption="{{article.title | raw}}">
+                            <div class="icons">
+                                <div class="icon"><i class="fa fa-play"></i></div>
+                            </div>
+                        </a>
+                    {% endif %}
+                    {% if image.caption | length %}
+                        <div class="slide__content">
+                            <div class="article__photo-author">{{image.caption | raw}}</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="article__container" itemprop="articleBody">
+        <!-- Article Blody -->
+        {{article.content | raw}}
+        <!-- End Article Body -->
+        
+        <!-- Disqus block -->
+        {% if network.thirdPartyIntegrations['disqus'] | length > 0 and network.thirdPartyIntegrations['disqus']['shortName'] != '' %}
+            <h2 class="comments-header" id="comments"><span class="disqus-comment-count" data-disqus-url="{{article.url}}"></span><span class="hide">Comments</span></h2>
+            {{this.render("partials/article/_disqus_comments.twig", {disqus: network.thirdPartyIntegrations['disqus'], userId: article.createdBy['id'], url:article.url, articleId: article.id}) | raw}}
+        {% endif %}
+        <!-- End Disqus Block -->
+    </div>
+    {% set popularArticles = _Article.getPopularArticles({ limit: 3, excludeArticleIds : articleId }) %}
+    {% if popularArticles|length > 0 %}
+        <h2 class="text-center additional-articles__header">You may also like ...</h2>
+    {% endif %}
+</div>
+{{this.render("partials/article/_popular_articles.twig", {articleId: article.id, network: network, popularArticles: popularArticles}) | raw }}
+
+

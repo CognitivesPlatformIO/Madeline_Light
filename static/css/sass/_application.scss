@@ -1,0 +1,143 @@
+// Sections
+@each $section, $values in $sections {
+  $name:  $section;
+  $color: map-get($values, color);
+  //$gradient: map-get($values, gradient);
+  //$background-color: map-get($values, background-color);
+  $length: length($sections);
+
+  // .header__navigation-item--#{$name} {
+  //   border-bottom: solid 4px $color;
+  // }
+
+  .footer--#{$name} {
+    box-shadow: inset 0px 2px 0px 0px $color;
+  }
+
+  div.home, div.channel, div.profile {
+    div:nth-child(#{$length}n+#{$name}) {
+      .card {
+        //border-top: 4px solid $color;
+        .card {
+          &__channel {
+            //color: $color;
+            &::after {
+              //background-color: $color;
+            }
+          }
+          &__overlay {
+            //background: $background-color;
+            //background-image: $gradient!important;
+          }
+          &__no-image .card__overlay {
+            //background: $color;
+          }
+          &__author {
+            //color: $color;
+          }
+        }
+        &.card__no-image .card__content_wrap {
+          //background-color: $background-color;
+        }
+      }
+    }
+  }
+
+  .card--#{$name} {
+    //border-color: $color;
+
+    .card {
+      &__no-image .card__overlay {
+        //background: $color;
+      }
+      &__author {
+        //color: $color;
+      }
+    }
+    &.card--light {
+      .card {
+        &__category {
+          background-color: $color;
+
+
+          &:hover {
+            background-color: $hover-color;
+          }
+        }
+      }
+    }
+  }
+
+  .card__follow.card--#{$name} {
+    background-color: $color;
+  }
+
+  .article--#{$name} {
+    border-color: $color;
+
+    .article {
+      &__banner {
+        border-color: $color;
+      }
+      &__follow {
+        background-color: $color;
+      }
+      &__caption {
+        .card {
+          &__author {
+            color: $color;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// Cards
+@each $card in $cards {
+  $name:  nth($card, 1);
+  $color: nth($card, 2);
+
+  .card__#{$name} {
+    border-color: $color;
+
+    .card {
+      &__category {
+        color: $color;
+
+        &-light {
+          background-color: $color;
+        }
+
+        &:after {
+          background-color: $color;
+        }
+      }
+
+      &__no-image,
+      &__image {
+        border-color: $color;
+      }
+      &__author {
+        //color: $color;
+      }
+    }
+    &.card--light {
+      .card {
+        &__category {
+          background-color: $color;
+        }
+      }
+    }
+  }
+}
+
+
+.simplemodal {
+  &-overlay {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

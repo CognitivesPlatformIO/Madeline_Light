@@ -1,0 +1,181 @@
+.auth {
+  flex-direction: column;
+  padding: 0!important;
+  background: #73A0B3;
+  max-width: 800px;
+  margin-bottom: -20px;
+  z-index: 999;
+  position: relative;
+  .forgot-password .login__form-title {
+    margin-top: 0;
+    padding-top: 30px;
+  }
+  &__tabs {
+    display: flex;
+    li {
+      display: block;
+      float:left;
+      width: 50%;
+
+      &.active a {
+        background: #73A0B3;
+        border: none;
+      }
+    }
+    a {
+      width: 100%;
+      text-align: center;
+      display: block;
+      float: left;
+      max-width: none;
+      //background: rgba(0,0,0,0.2);
+      background-image: linear-gradient(to top,rgba(0, 0, 0, 0.2) 0%,rgba(0, 0, 0, 0) 100%);
+      padding: 20px 0;
+      @include text-sm($letter-spacing: 0.21px, $color: $white, $font-multiplier: 1, $font-weight: 400);
+    }
+    &:first-child a {
+      margin-right: 15px;
+    }
+  }
+  .login, .sign-up {
+    padding-bottom: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    .form__error {
+      text-align: center;
+      @include text-sm($letter-spacing: 0.21px, $color: rgba(201,8,8,0.8), $font-multiplier: 0.78, $font-weight: 600);
+      padding: 9px 0 10px;
+      background: #EFD7D7;
+      border: 1px solid rgba(201,8,8,0.46);
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    &__o-login_button-wrap {
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      background: #73A0B3;
+      padding: 40px;
+    }
+    &__button {
+      padding: 10px 20px;
+      border-radius: 4px;
+      i, &-text {
+        color: #fff;
+      }
+      &.facebook-login, &.facebook-sign-up {
+        background: #3b5898;
+        margin-right: 10px;
+      }
+      &.twitter-login, &.twitter-sign-up {
+        background: #55acee;
+        margin-left: 10px;
+      }
+    }
+    // &__no-account {
+    //
+    // }
+    &__form-title {
+      color: #fff;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      text-align: center;
+      @include text-sm($letter-spacing: 0.21px, $color: $white, $font-multiplier: 1, $font-weight: 600);
+    }
+  }
+  .login-form, .sign-up-form {
+
+  }
+  form {
+    padding: 0 30px;
+    .form-control {
+      margin-top: 10px;
+      border: none;
+      background: rgba(255,255,255,0.8);
+      &:hover, &:active {
+        background: #fff;
+      }
+    }
+    button[type="submit"] {
+      background: rgba(255,255,255,1);
+      border-radius: 4px;
+      border: none;
+      padding: 8px 19px 9px;
+      @include text-sm($color: #576b73, $font-multiplier: 0.8, $font-weight: 600);
+      margin-left: 20px;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+      &:hover {
+        background: rgba(0,0,0,0.4);
+        color: #fff;
+      }
+
+    }
+    #email, .captcha {
+      margin-top: 30px;
+    }
+  }
+}
+
+.profile-status {
+  @include text-sm($color: $white, $font-weight: 700, $font-multiplier: 0.78);
+  padding: 20px 0;
+}
+
+.upload-profile {
+  margin-bottom: 15px;
+  display: inline-block;
+  i {
+    margin-right: 10px;
+    position: relative;
+    top: 1px;
+  }
+}
+
+.controls-full {
+  label {
+    margin-bottom: 0;
+    line-height: 1;
+  }
+  input {
+    margin-top: 5px;
+    margin-bottom: 15px;
+  }
+}
+
+#profile-form .button-set {
+  text-align: center;
+  margin-top: 30px;
+  button {
+    margin: 0;
+  }
+}
+
+.form__input-wrap {
+  display: flex;
+  justify-content: space-between;
+  input:first-child {
+    margin-right: 20px;
+  }
+}
+
+.button-set {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #fff;
+  &__forgot {
+    color: #fff;
+    text-decoration: underline;
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+  &__left {
+
+  }
+  &__right {
+    display: flex;
+    justify-content: space-between;
+  }
+
+}
