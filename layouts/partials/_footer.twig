@@ -41,7 +41,7 @@
                 {% if network.logoMedia | length > 0 %}
                     {% set logo = _Media.getMediaUrl(network.logoMedia, 200, 45, {'crop': 'limit'} )%}
                 {% endif %}
-                <a href="{{logoUrl}}" class="footer__logo"><img src="{{logo}}" width="100" /></a>
+                <a href="{{logoUrl}}" class="footer__logo"><img src="{{logo}}" /></a>
                 <div class="footer__navigation">
                     <div class="header__navigation-row">
                         <ul class="header__navigation-list">

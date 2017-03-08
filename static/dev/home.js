@@ -62,6 +62,10 @@ HomeController.Listing = (function ($) {
                             var watch = data.media.videoUrl.split("=");
                             data.media.videoUrl = "https://www.youtube.com/embed/" + watch[1];
                         }
+                        
+                        if (data.source == 'twitter') {
+                            data.user.name = '@'+data.user.name;
+                        }
 
                         var articleTemplate = Handlebars.compile(socialPostPopupTemplate);
                         var article = articleTemplate(data);
