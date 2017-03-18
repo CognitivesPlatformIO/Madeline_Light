@@ -1,4 +1,4 @@
-{{ set(this, 'title', (Html.encode(article.title))) }} 
+{{ set(this, 'title', (Html.encode(article.title))) }}   
 {% set noImageClass = ''%}
 {% if article.media | length <= 0 %}
     {% set noImageClass = 'no-image'%}
