@@ -48,7 +48,7 @@
       line-height: 40px;
     }
     &-responsive {
-      background-image: url(/static/images/icons/arrow-down.svg);
+      background-image: url(../images/icons/arrow-down.svg);
       background-size: 30px;
       background-repeat: no-repeat;
       background-position: 50% 90%;
@@ -63,7 +63,7 @@
       }
 
       &--expand {
-        background-image: url(/static/images/icons/arrow-up.svg);
+        background-image: url(../images/icons/arrow-up.svg);
       }
 
     }
@@ -129,7 +129,7 @@
     }
     &-menu {
       background-color: $body-text;
-      background-image: url(/static/images/icons/dropdown-arrow.svg);
+      background-image: url(../images/icons/dropdown-arrow.svg);
       background-position: 50% 50%;
       background-repeat: no-repeat;
       background-size: 10px;
@@ -150,7 +150,7 @@
       }
 
       &--expand {
-        background-image: url(/static/images/icons/arrow-up-white.svg);
+        background-image: url(../images/icons/arrow-up-white.svg);
       }
     }
     &-link {
@@ -184,7 +184,7 @@
           display: block;
         }
         &, &:link, &:visited, &:active {
-          background-image: url(/static/images/icons/search.svg);
+          background-image: url(../images/icons/search.svg);
           background-repeat: no-repeat;
           background-position: 50% 50%;
           background-size: 40px;
@@ -196,7 +196,7 @@
       }
       &--profile {
         &, &:link, &:visited, &:active {
-          background-image: url(/static/images/icons/cog.svg);
+          background-image: url(../images/icons/cog.svg);
           background-repeat: no-repeat;
           background-position: 50% 50%;
           background-color: rgb(230, 243, 245);
@@ -224,7 +224,7 @@
         }
       }
       &--responsive {
-        background-image: url(/static/images/icons/menu.svg);
+        background-image: url(../images/icons/menu.svg);
         background-repeat: no-repeat;
         background-position: 50% 50%;
         top: 0px;
@@ -294,7 +294,7 @@
     }
     &-btn {
       background: none;
-      background-image: url(/static/images/icons/search-magnifying-glass.svg);
+      background-image: url(../images/icons/search-magnifying-glass.svg);
       background-position: 10px 10px;
       background-repeat: no-repeat;
       background-size: 16px;
@@ -372,7 +372,7 @@
       margin-left:-70px;
       display:inline-block;
       vertical-align: middle;
-      background:url('/static/images/icons/search.svg') no-repeat center center;
+      background:url('../images/icons/search.svg') no-repeat center center;
       background-size:70px auto;
     }
   }
