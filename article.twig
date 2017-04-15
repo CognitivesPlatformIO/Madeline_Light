@@ -11,7 +11,7 @@
     {% set publisher = publisher|merge({logo:_Media.getMediaUrl(network.logoMedia, publisher.width, publisher.height, {'crop': 'lpad'} )})%}
 {% endif %}
 
-<div class="article article--technology {{noImageClass}}" itemscope itemtype="http://schema.org/NewsArticle">
+<div class="themesArticle themesArticle--technology {{noImageClass}}" itemscope itemtype="http://schema.org/NewsArticle">
     <meta itemscope itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" itemid="{{article.url}}"/>
     <meta itemprop="url" content="{{article.url}}">
     <meta itemprop="dateModified" content="{{article.updatedAt}}">
@@ -25,23 +25,23 @@
         </div>
     </div>
     {% endif%}
-    <div class="article__channel_wrap">
-        <div class="article__channel">{{article.label}}</div>
+    <div class="themesArticle__channel_wrap">
+        <div class="themesArticle__channel">{{article.label}}</div>
     </div>
-    <h1 class="article__headline" itemprop="headline">{{ article.title}}</h1>
-    <div class="article__date" itemprop="datePublished">{{article.publishedDate}}</div>
-    <div class="article__header">
+    <h1 class="themesArticle__headline" itemprop="headline">{{ article.title}}</h1>
+    <div class="themesArticle__date" itemprop="datePublished">{{article.publishedDate}}</div>
+    <div class="themesArticle__header">
         {% if network.thirdPartyIntegrations['disqus'] | length > 0 and network.thirdPartyIntegrations['disqus']['shortName'] != '' %}
-            <a href="#comments" class="button header_actions header_actions__comments article__header-item">{{article.total['comment']}} Comments</a>
+            <a href="#comments" class="button header_actions header_actions__comments themesArticle__header-item">{{article.total['comment']}} Comments</a>
         {% endif %}
-        <div class="button header_actions header_actions__share article__header-item">Share
+        <div class="button header_actions header_actions__share themesArticle__header-item">Share
             {{this.render('partials/article/_share-modal.twig', {network: network, url:article.url}) | raw }}
         </div>
-        <a class="article__profile article__header-item" href="{{_AppHelper.getUserProfileUrl(article.createdBy['username'])}}">
+        <a class="themesArticle__profile themesArticle__header-item" href="{{_AppHelper.getUserProfileUrl(article.createdBy['username'])}}">
             {% set profileImage = _Media.getMediaUrl(article.createdBy['media'], 80, 80, {radius: 'max', gravity: 'face', 'crop': 'thumb', 'type' : 'user'}) %}
             
-            <span class="article__userImage" style="background-image:url({{profileImage}})"></span>
-            <span class="article__author" itemprop="author">By <span itemprop="name">{{article.createdBy['displayName']}}</span></span>
+            <span class="themesArticle__userImage" style="background-image:url({{profileImage}})"></span>
+            <span class="themesArticle__author" itemprop="author">By <span itemprop="name">{{article.createdBy['displayName']}}</span></span>
             {% set status = 'follow' %}
             {% set text = 'Follow' %}
             {% set userFollowClass = '' %}
@@ -57,7 +57,7 @@
             {% endif%}
         </a>
     </div>
-    <div class="article__image">
+    <div class="themesArticle__image">
         <div class="slides">
             {% for image in article.media %}
                 {% set embed = craft.embeddedAssets.fromAsset(image) %}
@@ -85,7 +85,7 @@
                     {% endif %}
                     {% if image.caption | length %}
                         <div class="slide__content">
-                            <div class="article__photo-author">{{image.caption | raw}}</div>
+                            <div class="themesArticle__photo-author">{{image.caption | raw}}</div>
                         </div>
                     {% endif %}
                 </div>
@@ -93,14 +93,14 @@
         </div>
     </div>
 
-    <div class="article__container" itemprop="articleBody">
+    <div class="themesArticle__container" itemprop="articleBody">
         <!-- Article Blody -->
         {{article.content | raw}}
         <!-- End Article Body -->
     </div>
     {{this.render('partials/_cta.twig',{keyword: 'cta_2'}) | raw}}  
     
-    <div class="article__container">
+    <div class="themesArticle__container">
         <!-- Disqus block -->
         {% if network.thirdPartyIntegrations['disqus'] | length > 0 and network.thirdPartyIntegrations['disqus']['shortName'] != '' %}
             <h2 class="comments-header" id="comments"><span class="disqus-comment-count" data-disqus-url="{{article.url}}"></span><span class="hide">Comments</span></h2>

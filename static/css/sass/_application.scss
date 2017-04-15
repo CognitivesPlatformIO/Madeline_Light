@@ -72,10 +72,10 @@
     background-color: $color;
   }
 
-  .article--#{$name} {
+  .themesArticle--#{$name} {
     border-color: $color;
 
-    .article {
+    .themesArticle {
       &__banner {
         border-color: $color;
       }
