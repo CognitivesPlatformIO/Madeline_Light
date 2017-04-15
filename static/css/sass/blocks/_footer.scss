@@ -33,11 +33,13 @@
 
   &__logo {
     margin-bottom: 40px;
+    height: 45px;
+    max-width: 200px; 
     @include desktop-sm {
       display: inline-block;
       margin-bottom: 25px;
       img {
-        width: 200px;
+        height: 100%;  
       }
     }
   }
