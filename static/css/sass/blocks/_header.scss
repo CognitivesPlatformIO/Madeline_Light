@@ -114,8 +114,8 @@
     }
     &-logo {
       display: inline-block;
-      height: 65px;
-      max-height: 35px;
+      max-height: 65px;
+      max-width: 280px;
       @include tablet {
         width: auto;
         max-height:50px;
