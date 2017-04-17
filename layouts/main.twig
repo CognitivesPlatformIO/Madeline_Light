@@ -54,11 +54,13 @@
         
         {% set isPage = 'content_box_page' in _Page.getBodyClass() %}
         
+        {% set bodyClass = _Page.getBodyClass() | replace({('article') : 'article__page'}) %}
+        
         <link rel="alternate" type="application/rss+xml" title="{{_Network.getNetworkTitle()}} -  RSS Feeds" href="http://{{networkData.defaultDomain['domain']}}/feed/rss"/>
 
  <!--[if lte IE 8]><script type="text/javascript" src="{{networkData.templatePath}}/static/js/ie/ie.js"></script><![endif]-->
         {% if _AppHelper.getApplicationEnv() == 'PROD'%}
-            <link rel="stylesheet" href="{{networkData.templatePath}}/static/deploy/output.min.css?rel=1492259087491" type="text/css" media="all">
+            <link rel="stylesheet" href="{{networkData.templatePath}}/static/deploy/output.min.css?rel=1492427159281" type="text/css" media="all">
         {% else %}
             <link type="text/css" rel="stylesheet" href="{{networkData.templatePath}}/static/plugins/jquery.fancybox/source/jquery.fancybox.css" />
             <link type="text/css" rel="stylesheet" href="{{networkData.templatePath}}/static/plugins/jquery.noty-2.3.8/demo/animate.css" />
@@ -176,7 +178,7 @@
         {% endif %}
         {{ this.head() }}
     </head>
-    <body class="body article {{_Page.getBodyClass()}}">
+    <body class="body {{bodyClass}}">
         {{ this.beginBody() }}
         <!-- Google Tag Manager(noscript) -->
         {% if networkData.thirdPartyIntegrations['googleTagManager'] | length > 0 %}

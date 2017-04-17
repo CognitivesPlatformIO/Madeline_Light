@@ -1,4 +1,4 @@
-.themesArticle {
+.article {
     @extend .container;
     padding: 45px 15px;
     @include desktop-sm {
@@ -63,7 +63,7 @@
     }
 }
 
-.themesArticle {
+.article {
     &__image {
         width: calc(100% + 30px);
         margin: 0 -15px 30px;
@@ -176,7 +176,7 @@
         margin-bottom: 30px;
     }
     &__photo-author {
-        @extend .themesArticle__date;
+        @extend .article__date;
         color: white;
         opacity:1;
         margin-bottom: 20px;

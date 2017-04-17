@@ -18,7 +18,7 @@
         flex-direction: row;
         height: 100%;
     }
-    .themesArticle__profile {
+    .article__profile {
         margin-top: 20px;
     }
     &__image_container {
@@ -159,11 +159,11 @@
     &__overflow {
         overflow-y: auto;
     }
-    .themesArticle__profile {
+    .article__profile {
         background-color: transparent;
         padding: 0;
         justify-content: flex-start;
-        .themesArticle__author {
+        .article__author {
             color: white;
             margin: 0 0 6px;
         }
