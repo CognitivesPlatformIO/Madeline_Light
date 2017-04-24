@@ -114,9 +114,9 @@
         }
         a {
             border-bottom: 1px solid $body-text !important;
-            color: $body-text !important;
+            color: $body-text;
             &:hover, &:focus {
-                color: $hover-color !important;
+                color: $hover-color;
                 border-color: $hover-color !important;
             }
         }
