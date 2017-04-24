@@ -60,7 +60,10 @@
             float: left;
             list-style-position: outside;
             padding-left: 7px;
-            margin-bottom: 10px;
+            @include text-md($line-height:1.6666);
+            + li {
+                margin-top: 10px;
+            }
             > p {
                 margin-bottom: 0px; 
             }
@@ -83,6 +86,10 @@
             margin-left: -70px;
             margin-right: -70px;
         }
+    }
+    blockquote {
+        padding-left: 30px;
+        margin-bottom: 27px;   
     }
 }
 
