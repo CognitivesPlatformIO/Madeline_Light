@@ -48,7 +48,7 @@
 
 // Default image for Dropzone
 @mixin image_background_Dropzone {
-	background-image:url("/static/images/spritemap@2x.png");
+	background-image:url("../images/spritemap@2x.png");
 	background-position:center center;
 	background-repeat:no-repeat;
 	background-size:428px auto;
@@ -56,7 +56,7 @@
 
 // Default image for Dropzone
 @mixin image_background_DropzoneMessage {
-	background-image:url("/static/images/uploadsprite.svg");
+	background-image:url("../images/uploadsprite.svg");
 	background-position:center center;
 	background-repeat:no-repeat;
 	background-size:428px auto;
@@ -64,64 +64,64 @@
 
 // Default image settings for Facebook
 @mixin image_background_social_facebook {
-	background-image:url('/static/images/icons/social-facebook.svg');
+	background-image:url('../images/icons/social-facebook.svg');
 }
 @mixin image_background_facebook_white {
-	background-image:url('/static/images/icons/facebook-white.svg');
+	background-image:url('../images/icons/facebook-white.svg');
 }
 
 // Default image settings for Twitter
 @mixin image_background_social_twitter {
-	background-image:url('/static/images/icons/social-twitter.svg');
+	background-image:url('../images/icons/social-twitter.svg');
 }
 @mixin image_background_twitter_white {
-	background-image:url('/static/images/icons/twitter-white.svg');
+	background-image:url('../images/icons/twitter-white.svg');
 }
 
 // Default image settings for Twitter
 @mixin image_background_linkedin_twitter {
-	background-image:url('/static/images/icons/social-linkedin.svg');
+	background-image:url('../images/icons/social-linkedin.svg');
 }
 @mixin image_background_linkedin_white {
-	background-image:url('/static/images/icons/linkedin-white.svg');
+	background-image:url('../images/icons/linkedin-white.svg');
 }
 
 
 // Default image settings for Googleplus
 @mixin image_background_social_googleplus {
-	background-image:url('/static/images/icons/social-google-plus.svg');
+	background-image:url('../images/icons/social-google-plus.svg');
 }
 @mixin image_background_googleplus_white {
-	background-image:url('/static/images/icons/google-plus-white.svg');
+	background-image:url('../images/icons/google-plus-white.svg');
 }
 
 // Default image settings for Instagram
 @mixin image_background_social_instagram {
-	background-image:url('/static/images/icons/category-instagram.svg');
+	background-image:url('../images/icons/category-instagram.svg');
 }
 
 // Default image settings for Youtube
 @mixin image_background_social_youtube {
-	background-image:url('/static/images/icons/youtube.svg');
+	background-image:url('../images/icons/youtube.svg');
 }
 
 // Default image settings for Like
 @mixin image_background_social_likes {
-	background-image:url('/static/images/icons/social-like.svg');
+	background-image:url('../images/icons/social-like.svg');
 }
 
 // Default image settings for email
 @mixin image_background_social_email {
-	background-image:url('/static/images/icons/mail.svg');
+	background-image:url('../images/icons/mail.svg');
 }
 // Default image settings for Comment
 @mixin image_background_social_comment {
-	background-image:url('/static/images/icons/social-comment.svg');
+	background-image:url('../images/icons/social-comment.svg');
 }
 
 // Default image settings for Comment
 @mixin image_background_social_share {
-	background-image:url('/static/images/icons/share.svg');
+	background-image:url('../images/icons/share.svg');
 }
 
 // Base font

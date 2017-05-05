@@ -26,7 +26,7 @@
     </div>
     {% endif%}
     <div class="article__channel_wrap">
-        <div class="article__channel">{{article.label}}</div>
+        <div class="article__channel"><a href="{{article.blog['url']}}">{{article.label}}</a></div>
     </div>
     <h1 class="article__headline" itemprop="headline">{{ article.title}}</h1>
     <div class="article__date" itemprop="datePublished">{{article.publishedDate}}</div>
@@ -42,18 +42,20 @@
             
             <span class="article__userImage" style="background-image:url({{profileImage}})"></span>
             <span class="article__author" itemprop="author">By <span itemprop="name">{{article.createdBy['displayName']}}</span></span>
-            {% set status = 'follow' %}
-            {% set text = 'Follow' %}
-            {% set userFollowClass = '' %}
-            {% if not _User.isGuest() and _User.isUserFollowing('writer', article.createdBy['id'])%}
-                {% set status = 'unfollow' %}
-                {% set text = 'Unfollow' %}
-                {% set userFollowClass = 'active' %}
-            {% endif %}
-            {% if _User.isGuest() %}
-                <span class="button button__follow button__follow--reverse forceLoginModal">Follow</span>
-            {% elseif article.createdBy['id'] != _User.getId() %}
-                <span class="button button__follow button__follow--reverse {{userFollowClass}} followArticleBtn" data-guid="{{article.createdBy['guid']}}" data-status="{{status}}">{{text}}</span>
+            {% if not _Network.isNetworkClosed(network) %}
+                {% set status = 'follow' %}
+                {% set text = 'Follow' %}
+                {% set userFollowClass = '' %}
+                {% if not _User.isGuest() and _User.isUserFollowing('writer', article.createdBy['id'])%}
+                    {% set status = 'unfollow' %}
+                    {% set text = 'Unfollow' %}
+                    {% set userFollowClass = 'active' %}
+                {% endif %}
+                {% if _User.isGuest() %}
+                    <span class="button button__follow button__follow--reverse forceLoginModal">Follow</span>
+                {% elseif article.createdBy['id'] != _User.getId() %}
+                    <span class="button button__follow button__follow--reverse {{userFollowClass}} followArticleBtn" data-guid="{{article.createdBy['guid']}}" data-status="{{status}}">{{text}}</span>
+                {% endif%}
             {% endif%}
         </a>
     </div>
@@ -97,7 +99,10 @@
         <!-- Article Blody -->
         {{article.content | raw}}
         <!-- End Article Body -->
-        
+    </div>
+    {{this.render('partials/_cta.twig',{keyword: 'cta_2'}) | raw}}  
+    
+    <div class="article__container">
         <!-- Disqus block -->
         {% if network.thirdPartyIntegrations['disqus'] | length > 0 and network.thirdPartyIntegrations['disqus']['shortName'] != '' %}
             <h2 class="comments-header" id="comments"><span class="disqus-comment-count" data-disqus-url="{{article.url}}"></span><span class="hide">Comments</span></h2>

@@ -120,6 +120,7 @@
             selectContainer.find('.account-modal__select_selected-item-container').append('<div class="account-modal__select_selected-item" data-title=" ' + selectedItem + '">' + selectedItem + '</div>');
             selectContainer.find('.account-modal__select_list-item').removeClass('active');
             $(this).addClass('active');
+			$('#newsletterFrequency').val(selectedId);
         }
 
         var cls = followCls == 'user-follow' ? 'user-following' : 'blog-following';
@@ -259,6 +260,9 @@
         if ($(e.target).hasClass('account-modal__container') || $(e.target).hasClass('account-modal__content_cross')) {
             $(this).removeClass('active');
             $('body').removeClass('active');
+            if($('body').hasClass('signup_landing_page')) {
+                window.location.reload();
+            }
         }
     });
 
@@ -360,6 +364,7 @@
                         $('.forgotten-password-modal__content--email-sent').addClass('active');
                         $('.forgotten-password-modal__container').addClass('success');
                     } else {
+                         $('.error-forgot-pass-msg').html((data.error.email[0] !== 'undefined') ? data.error.email[0] : 'Invalid email address');
                         $('.forgotten-password-modal__content--forgotten').find('.account-modal__input-container').addClass('error');
                     }
                 },

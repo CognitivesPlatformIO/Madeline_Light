@@ -30,7 +30,7 @@
                     </div>
                     <div class="account-modal__navigation_item account-modal__navigation_item--account">My Account</div>
                     <a href="{{_AppHelper.getLogoffUrl()}}" class="account-modal__navigation_item">Logout</a>
-                {% else %}
+                {% elseif not _Network.isNetworkClosed(network) %}
                     <div class="account-modal__navigation_item account-modal__navigation_item--login active">Login</div>
                     <div class="account-modal__navigation_item account-modal__navigation_item--signup">Sign Up</div>
                 {% endif %}
@@ -165,6 +165,26 @@
                         </div>
                         <div class="account-modal__input_requirement"></div>
                     </div>
+					<div class="account-modal__content_item-container">
+						{% set newsletter = 'never'%}
+						{% if user.userSettings['isNewsletterEnable'] %} 
+							{% set newsletter = user.userSettings['newsletterFrequency'] %}
+						{% endif %}
+						<input type="hidden" name="newsletterFrequency" id="newsletterFrequency" value="{{user.userSettings['isNewsletterEnable']}}">
+						<div class="account-modal__select account-modal__select--more-margin">
+							<div class="account-modal__select_content">
+								<div class="account-modal__select_label">Newsletter</div>
+								<img class="account-modal__select_arrow" src="{{network.templatePath}}/static/images/icons/account-modal-select-arrow.svg" alt="Select dropdown arrow">
+								<div class="account-modal__select_selected-item-container">{{newsletter|capitalize}}</div>
+								<div class="account-modal__select_list">
+									<div class="account-modal__select_list-item" data-id="1">Never</div>
+									<div class="account-modal__select_list-item" data-id="daily">Daily</div>
+									<div class="account-modal__select_list-item" data-id="weekly">Weekly</div>
+									<div class="account-modal__select_list-item" data-id="monthly">Monthly</div>
+								</div>
+							</div>
+						</div>
+					</div>
                     <div class="account-modal__error">
                         <div class="account-modal__error_text">Error</div>
                     </div>
@@ -192,7 +212,7 @@
                         <div class="account-modal__content_item-container">
                             <div class="account-modal__input-container">
                                 <div class="account-modal__input_content">
-                                    <div class="account-modal__input_label">Email Adress</div>
+                                    <div class="account-modal__input_label">Email Address</div>
                                     <input class="account-modal__input account-modal__input--email" type="email" name="email" value="{{ user.email }}" disabled>
                                 </div>
                                 <div class="account-modal__input_requirement">
@@ -237,7 +257,7 @@
                     </div>
                     <button class="account-modal__buttons_account account-button account-button--save">Save</button>
                 </form>
-            {% else %}
+            {% elseif not _Network.isNetworkClosed(network) %}
                 {# Login Content #}
                 <form name="loginForm" id="loginForm" class="account-modal__content_section account-modal__content_section--login active" action="javascript:void(0);" method="post" accept-charset="UTF-8">
 
@@ -286,8 +306,8 @@
                 <form  name="signupForm" id="signupForm"  class="account-modal__content_section account-modal__content_section--signup">
                     <div class="account-modal__content_title">Signup</div>
                     <ul class="account-modal__content_social">
-                        <li class="facebook"><a href="{{_AppHelper.getSocialFacebookUrl(1)}}"><i class="fa fa-facebook"></i> Login with Facebook</a></li>
-                        <li class="twitter"><a href="{{_AppHelper.getSocialTwitterUrl(1)}}"><i class="fa fa-twitter"></i> Login with Twitter</a></li>
+                        <li class="facebook"><a href="{{_AppHelper.getSocialFacebookUrl()}}"><i class="fa fa-facebook"></i> Signup with Facebook</a></li>
+                        <li class="twitter"><a href="{{_AppHelper.getSocialTwitterUrl()}}"><i class="fa fa-twitter"></i> Signup with Twitter</a></li>
                     </ul>
                     <input type="hidden" name="_csrf" value="{{_AppHelper.getCsrfToken()}}" />
                     <div class="account-modal__content_container">
@@ -385,21 +405,25 @@
                         </div>
                         
                     </div>
-                    <div class="account-modal__content_container">
-                        <div class="account-modal__content_item-container">
-                            <div class="account-modal__input-container">
-                                <div class="account-modal__input_content captcha">
-                                    {{_AppForm.captcha({class: 'account-modal__input account-modal__input--captcha', placeholder: 'Enter the text shown above'}) | raw }}
+                    {% if _Network.getCaptchaSiteKey() is defined and _Network.getCaptchaSiteKey() is not empty %}
+                        <div class="g-recaptcha" data-sitekey="{{_Network.getCaptchaSiteKey()}}" style="padding-bottom:30px;"></div>
+                    {% else %}           
+                        <div class="account-modal__content_container">
+                            <div class="account-modal__content_item-container">
+                                <div class="account-modal__input-container">
+                                    <div class="account-modal__input_content captcha">
+                                        {{_AppForm.captcha({class: 'account-modal__input account-modal__input--captcha', placeholder: 'Enter the text shown above'}) | raw }}
+                                    </div>
+                                    <div class="account-modal__input_requirement">
+                                        <span class="account-modal__input_requirement--standard">Required</span>
+                                        <span class="account-modal__input_requirement--error">Required</span>
+                                        <img class="account-modal__input_requirement--tick" src="{{network.templatePath}}/static/images/icons/account-modal-select-tick.svg" alt="Select required tick">
+                                        <img class="account-modal__input_requirement--cross" src="{{network.templatePath}}/static/images/icons/account-modal-select-cross.svg" alt="Select required tick">
+                                    </div>
                                 </div>
-                                <div class="account-modal__input_requirement">
-                                    <span class="account-modal__input_requirement--standard">Required</span>
-                                    <span class="account-modal__input_requirement--error">Required</span>
-                                    <img class="account-modal__input_requirement--tick" src="{{network.templatePath}}/static/images/icons/account-modal-select-tick.svg" alt="Select required tick">
-                                    <img class="account-modal__input_requirement--cross" src="{{network.templatePath}}/static/images/icons/account-modal-select-cross.svg" alt="Select required tick">
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
+                            </div>                        
+                        </div>
+                    {% endif %}
                     <div class="account-modal__error">
                         <div class="account-modal__error_text">Not all inputs entered correctly.</div>
                     </div>
@@ -418,11 +442,11 @@
             <div class="account-modal__content_container">
                 <div class="account-modal__input-container">
                     <div class="account-modal__input_content">
-                        <div class="account-modal__input_label">Email Adress</div>
+                        <div class="account-modal__input_label">Email Address</div>
                         <input class="account-modal__input account-modal__input--email" type="email" name="email">
                     </div>
                     <div class="account-modal__input_requirement">
-                        <span class="account-modal__input_requirement--error">Invalid email address</span>
+                        <span class="account-modal__input_requirement--error error-forgot-pass-msg">Invalid email address</span>
                         <img class="account-modal__input_requirement--tick" src="{{network.templatePath}}/static/images/icons/account-modal-select-tick.svg" alt="Select required tick">
                         <img class="account-modal__input_requirement--cross" src="{{network.templatePath}}/static/images/icons/account-modal-select-cross.svg" alt="Select required tick">
                     </div>

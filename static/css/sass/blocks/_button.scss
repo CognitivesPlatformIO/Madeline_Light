@@ -74,10 +74,10 @@
     }
   }
   &__comments {
-    background-image: url(/static/images/icons/comment-icon.svg);
+    background-image: url(../images/icons/comment-icon.svg);
   }
   &__share {
-    background-image: url(/static/images/icons/share-icon.svg);
+    background-image: url(../images/icons/share-icon.svg);
     border-radius: 0;
     position: relative;
     .share-popup .share-popup__close {
