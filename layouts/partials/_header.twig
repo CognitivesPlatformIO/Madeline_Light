@@ -80,7 +80,7 @@
                 {#<!--{% endif %}-->#}
             </div>
             <div class="header__heading--right">
-                {% if _User.isGuest() %}
+                {% if _User.isGuest() and not _Network.isNetworkClosed(network) %}
                     <div class="header__heading-link" id="login">
                         <a class="header__login__link">Login</a>
                         |
