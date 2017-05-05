@@ -37,7 +37,7 @@
                     </div>
                     <div class="profile__dark-separator"></div>
                     <div class="profile__contributions">
-                        {{this.render('partials/user-profile/_user_blogs.twig', {userOwnerBlogs : userOwnerBlogs}) | raw }} 
+                        {{this.render('partials/user-profile/_user_blogs.twig', {userOwnerBlogs : userOwnerBlogs, network : networkData}) | raw }} 
                     </div>
                 {% endif %}
 
@@ -49,7 +49,7 @@
                     </div>
                     <div class="profile__light-separator"></div>
                     <div class="profile__following">
-                        {{this.render('partials/user-profile/_user_following.twig', {myBlogs : myBlogs, myFollowings: myFollowings}) | raw }}
+                        {{this.render('partials/user-profile/_user_following.twig', {myBlogs : myBlogs, myFollowings: myFollowings, network : networkData}) | raw }}
                     </div>
                 {% endif %}
 
@@ -61,7 +61,7 @@
                     </div>
                     <div class="profile__light-separator"></div>
                     <div class="profile__following-writers">
-                        {{this.render('partials/user-profile/_writer_following.twig', {myFollowings: myFollowings}) | raw }}
+                        {{this.render('partials/user-profile/_writer_following.twig', {myFollowings: myFollowings, network : networkData}) | raw }}
                     </div>
                 {% endif %}
 
@@ -73,7 +73,7 @@
                     </div>
                     <div class="profile__light-separator"></div>
                     <div class="profile__following-you">
-                        {{this.render('partials/user-profile/_user_followed_by.twig', {myFollowers : myFollowers}) | raw }}
+                        {{this.render('partials/user-profile/_user_followed_by.twig', {myFollowers : myFollowers, network : networkData}) | raw }}
                     </div>
                 {% endif %}
 

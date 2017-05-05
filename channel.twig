@@ -3,6 +3,7 @@
 {{this.registerJs("HomeController.listing();")}}
 {{this.registerJs("HomeController.blog();")}}
 
+{% set network = _Network.getNetworkData() %}
 {% set limit = 10 %}
 {% set articlesArr = _Blog.getBlogFeed({'limit': limit, 'offset': 0}) %}
 {% set articles = articlesArr.articles %}
@@ -16,15 +17,17 @@
                             <h3 class="card__headline">{{blogInfo.title}}</h3>
                             <p class="card__text">{{Helper.shortStr(blogInfo.shortDescription, 120, false, true) | raw}}</p>
                             <div class="card__button-wrap">
-                                {% if not _User.isGuest %}
-                                    {% set isUserFollowingBlog = _User.isUserFollowing('blog', blogInfo.id) %}
-                                    {% if isUserFollowingBlog %}
-                                        <button class="button button__follow button__follow followSection" data-status="unfollow"  data-guid="{{blogInfo.guid}}">Following</button>
+                                {% if not _Network.isNetworkClosed(network) %}
+                                    {% if not _User.isGuest %}
+                                        {% set isUserFollowingBlog = _User.isUserFollowing('blog', blogInfo.id) %}
+                                        {% if isUserFollowingBlog %}
+                                            <button class="button button__follow button__follow followSection" data-status="unfollow"  data-guid="{{blogInfo.guid}}">Following</button>
+                                        {% else %}
+                                            <button  class="button button__follow followSection" data-status="follow"  data-guid="{{blogInfo.guid}}">Follow</button>
+                                        {% endif %}
                                     {% else %}
-                                        <button  class="button button__follow followSection" data-status="follow"  data-guid="{{blogInfo.guid}}">Follow</button>
+                                        <button  class="button button__follow button__follow loginModal">Follow</button>
                                     {% endif %}
-                                {% else %}
-                                    <button  class="button button__follow button__follow loginModal">Follow</button>
                                 {% endif %}
                                 <div class="button header_actions header_actions__share article__header-item">
                                     Share
