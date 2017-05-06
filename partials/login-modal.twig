@@ -115,8 +115,12 @@
                             {{_AppForm.input({ name: 'username', value: form.username, class: 'form-control', placeholder: 'Username'}) | raw }}
 
                             <div class="controls-full captcha">
-                                <span class='help-block'>This is how you'll be known on {{_Network.getNetworkTitle()}}</span>
-                                {{_AppForm.captcha({class: 'form-control', placeholder: 'Please enter tha captcha text above'}) | raw }}
+                                {% if _Network.getCaptchaSiteKey() is defined and _Network.getCaptchaSiteKey() is not empty %}
+                                    <div class="g-recaptcha" data-sitekey="{{_Network.getCaptchaSiteKey()}}" style="padding-bottom:30px;"></div>
+                                {% else %} 
+                                    <span class='help-block'>This is how you'll be known on {{_Network.getNetworkTitle()}}</span>
+                                    {{_AppForm.captcha({class: 'form-control', placeholder: 'Please enter tha captcha text above'}) | raw }}
+                                {% endif %}
                             </div>
 
                             <div class="button-set">
