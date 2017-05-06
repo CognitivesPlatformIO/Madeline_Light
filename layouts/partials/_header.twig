@@ -141,7 +141,7 @@
                     </li>
                 {% endif %}
             {% endfor %}
-            {% if _User.isGuest() %}
+            {% if _User.isGuest() and not _Network.isNetworkClosed(network)%}
                 <li class="side-navigation__item">
                     <a class="side-navigation__link side-navigation__link--login">Login</a>
                 </li>
