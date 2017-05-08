@@ -5,6 +5,7 @@
 {% set limit = 20 %}
 {% set articles = _Search.searchArticles({'limit': limit, 'offset': 0, 'search': search}) %}
 {% set homeUrl = network.networkLogoLinkUrl %}
+{% set articles = {} %} <!--  delete this line -->
 <div class="search__form-big">
     <form action="/search" method="get">
         <input type="text" class="header__search-text" placeholder="Search" name="s" value="{{ search }}">
@@ -15,22 +16,30 @@
     {{ articles|length }} Search result{% if articles|length > 1 %}s{% endif %}
 </div> 
 {% if articles|length > 0 %}
-<div class="search search__wrapper ajaxArticles" data-offset="{{limit}}">    
-	{% for article in articles %}
-		{{this.render('partials/_single-article.twig', {article: article, 'position': 1, containerClass: 'col-quarter'}) | raw}}
-	{% endfor %}
-</div>
+    <div class="search search__wrapper ajaxArticles" data-offset="{{limit}}">    
+        {% for article in articles %}
+            {{this.render('partials/_single-article.twig', {article: article, 'position': 1, containerClass: 'col-quarter'}) | raw}}
+        {% endfor %}
+    </div>
 {% else %}
-<div class="search__wrapper">
-	<div class="error__wrapper text-center">
-		<img alt="Error Icon" class="error__wrapper-icon" height="30" src="{{network.templatePath}}/static/images/icons/nofound-error.svg">
-		<div class="error__wrapper-content">
-			<h1 class="error__wrapper-content-heading">404</h1>
-			<p class="error__wrapper-content-text"><span>Sorry,</span> but this article doesn’t exist</p>
-			<a href="{{homeUrl}}" class="button home-button">Back to Homepage</a>
-		</div>
-	</div>
-</div>
+    <div class="search__wrapper">
+        <div class="container">
+            <div class="error-wrapper text-center">
+                <div class="error-message">
+                    <div class="error-icon">
+                        <img src="{{network.templatePath}}/static/images/icons/nofound-error.svg" alt="image" />
+                    </div>
+                    <div class="error-heading">
+                        404
+                    </div>
+                    <div class="content-section">
+                        <span>Sorry,</span> we couldnt find what you were looking for...
+                    </div>
+                    <a href="{{homeUrl}}" class="button home-button">Back to Homepage</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endif %}
 <br/><br/>
 <div class="row text-center">
