@@ -10,13 +10,15 @@
             <div class="profile-sidebar__name">{{Html.encode(userDetails.firstname) | capitalize}} {{Html.encode(userDetails.lastname) | capitalize}}</div>
             <div class="profile-sidebar__location">&nbsp;</div>
             <span class="profile-sidebar__description">{{Html.decode(userDetails.bio) | raw }}</span>
-            {% if _User.isGuest() %}
-                <a href="{{_AppHelper.getLoginUrl()}}" class="button button__profile-follow forceLoginModal">Follow</a>
-            {% endif %}
-            {% if not _User.isGuest() and _User.getId() != userDetails.id %}
-                {% set isUserFollowing = _User.isUserFollowing('user', userDetails.id)  %}
-                <a href="javascript:void(0)" class="button button__profile-follow FollowProfileUser" 
-                   data-guid="{{userDetails.guid}}" data-status="{% if isUserFollowing == 'TRUE' %}unfollow{% else %} follow {% endif %}">{% if isUserFollowing == 'TRUE' %} Unfollow {% else %} Follow {% endif %}</a>
+            {% if not _Network.isNetworkClosed(networkData) %}
+                {% if _User.isGuest() %}
+                    <a href="{{_AppHelper.getLoginUrl()}}" class="button button__profile-follow forceLoginModal">Follow</a>
+                {% endif %}
+                {% if not _User.isGuest() and _User.getId() != userDetails.id %}
+                    {% set isUserFollowing = _User.isUserFollowing('user', userDetails.id)  %}
+                    <a href="javascript:void(0)" class="button button__profile-follow FollowProfileUser" 
+                       data-guid="{{userDetails.guid}}" data-status="{% if isUserFollowing == 'TRUE' %}unfollow{% else %} follow {% endif %}">{% if isUserFollowing == 'TRUE' %} Unfollow {% else %} Follow {% endif %}</a>
+                {% endif %}
             {% endif %}
             {% if not _User.isGuest() and _User.getId() == userDetails.id %}
                 <a href="{{_AppHelper.getEditProfileUrl()}}" class="button button__profile-follow">Edit profile</a>
@@ -37,7 +39,7 @@
                     </div>
                     <div class="profile__dark-separator"></div>
                     <div class="profile__contributions">
-                        {{this.render('partials/user-profile/_user_blogs.twig', {userOwnerBlogs : userOwnerBlogs}) | raw }} 
+                        {{this.render('partials/user-profile/_user_blogs.twig', {userOwnerBlogs : userOwnerBlogs, network : networkData}) | raw }} 
                     </div>
                 {% endif %}
 
@@ -49,7 +51,7 @@
                     </div>
                     <div class="profile__light-separator"></div>
                     <div class="profile__following">
-                        {{this.render('partials/user-profile/_user_following.twig', {myBlogs : myBlogs, myFollowings: myFollowings}) | raw }}
+                        {{this.render('partials/user-profile/_user_following.twig', {myBlogs : myBlogs, myFollowings: myFollowings, network : networkData}) | raw }}
                     </div>
                 {% endif %}
 
@@ -61,7 +63,7 @@
                     </div>
                     <div class="profile__light-separator"></div>
                     <div class="profile__following-writers">
-                        {{this.render('partials/user-profile/_writer_following.twig', {myFollowings: myFollowings}) | raw }}
+                        {{this.render('partials/user-profile/_writer_following.twig', {myFollowings: myFollowings, network : networkData}) | raw }}
                     </div>
                 {% endif %}
 
@@ -73,7 +75,7 @@
                     </div>
                     <div class="profile__light-separator"></div>
                     <div class="profile__following-you">
-                        {{this.render('partials/user-profile/_user_followed_by.twig', {myFollowers : myFollowers}) | raw }}
+                        {{this.render('partials/user-profile/_user_followed_by.twig', {myFollowers : myFollowers, network : networkData}) | raw }}
                     </div>
                 {% endif %}
 

@@ -43,7 +43,8 @@ module.exports = function(grunt) {
                         'static/dev/auth.js',
                         'static/dev/common.js',
                         'static/dev/user-profile.js',
-                        'static/dev/account-modal.js'
+                        'static/dev/account-modal.js',
+                        'static/dev/login.js'
                     ]
                 }
             }

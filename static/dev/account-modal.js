@@ -260,6 +260,9 @@
         if ($(e.target).hasClass('account-modal__container') || $(e.target).hasClass('account-modal__content_cross')) {
             $(this).removeClass('active');
             $('body').removeClass('active');
+            if($('body').hasClass('signup_landing_page')) {
+                window.location.reload();
+            }
         }
     });
 
@@ -361,6 +364,7 @@
                         $('.forgotten-password-modal__content--email-sent').addClass('active');
                         $('.forgotten-password-modal__container').addClass('success');
                     } else {
+                         $('.error-forgot-pass-msg').html((data.error.email[0] !== 'undefined') ? data.error.email[0] : 'Invalid email address');
                         $('.forgotten-password-modal__content--forgotten').find('.account-modal__input-container').addClass('error');
                     }
                 },
@@ -433,6 +437,10 @@
                             var container = $('.account-modal__input--' + key).closest('.account-modal__input-container');
                             container.removeClass('active').removeClass('answered').addClass('error');
                             container.find('.account-modal__input_requirement--error').html(data.error[key]);
+                            if(key === "captcha") {
+                                $('.captchaContainer').addClass('active');
+                                $('.captchaMessage').html(data.error[key]);
+                            }
                         });
                         $('.captcha img').trigger('click');
                         $('.captcha input').val('');
@@ -442,6 +450,7 @@
 
                 },
                 beforeSend: function (jqXHR, settings) {
+                    $('.captchaContainer').removeClass('active');
                     $(elem).html('Please wait..');
                 },
                 complete: function (jqXHR, textStatus) {

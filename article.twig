@@ -1,4 +1,4 @@
-{{ set(this, 'title', (Html.encode(article.title))) }} 
+{{ set(this, 'title', (Html.encode(article.title))) }}   
 {% set noImageClass = ''%}
 {% if article.media | length <= 0 %}
     {% set noImageClass = 'no-image'%}
@@ -42,18 +42,20 @@
             
             <span class="article__userImage" style="background-image:url({{profileImage}})"></span>
             <span class="article__author" itemprop="author">By <span itemprop="name">{{article.createdBy['displayName']}}</span></span>
-            {% set status = 'follow' %}
-            {% set text = 'Follow' %}
-            {% set userFollowClass = '' %}
-            {% if not _User.isGuest() and _User.isUserFollowing('writer', article.createdBy['id'])%}
-                {% set status = 'unfollow' %}
-                {% set text = 'Unfollow' %}
-                {% set userFollowClass = 'active' %}
-            {% endif %}
-            {% if _User.isGuest() %}
-                <span class="button button__follow button__follow--reverse forceLoginModal">Follow</span>
-            {% elseif article.createdBy['id'] != _User.getId() %}
-                <span class="button button__follow button__follow--reverse {{userFollowClass}} followArticleBtn" data-guid="{{article.createdBy['guid']}}" data-status="{{status}}">{{text}}</span>
+            {% if not _Network.isNetworkClosed(network) %}
+                {% set status = 'follow' %}
+                {% set text = 'Follow' %}
+                {% set userFollowClass = '' %}
+                {% if not _User.isGuest() and _User.isUserFollowing('writer', article.createdBy['id'])%}
+                    {% set status = 'unfollow' %}
+                    {% set text = 'Unfollow' %}
+                    {% set userFollowClass = 'active' %}
+                {% endif %}
+                {% if _User.isGuest() %}
+                    <span class="button button__follow button__follow--reverse forceLoginModal">Follow</span>
+                {% elseif article.createdBy['id'] != _User.getId() %}
+                    <span class="button button__follow button__follow--reverse {{userFollowClass}} followArticleBtn" data-guid="{{article.createdBy['guid']}}" data-status="{{status}}">{{text}}</span>
+                {% endif%}
             {% endif%}
         </a>
     </div>
