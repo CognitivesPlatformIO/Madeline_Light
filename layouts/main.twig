@@ -10,13 +10,13 @@
 <![endif]-->
 <!--[if !(IE)]><!-->
 <html lang="{{ _AppHelper.getLanguage() }}">
-<!--<![endif]-->
-<head>
-	<meta charset="utf-8" />
+    <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	{{ Html.csrfMetaTags | raw }}
+        {{ Html.csrfMetaTags | raw }}
         <title>{{this.title | raw}}</title>
-        
+
         <!-- Google Tag Manager -->
         {% if networkData.thirdPartyIntegrations['googleTagManager'] | length > 0 %}
             {{networkData.thirdPartyIntegrations['googleTagManager']['script'] | raw}}
@@ -26,22 +26,22 @@
         {% if networkData.favMedia | length > 0 %}
             {% set favicon = _Media.getMediaUrl(networkData.favMedia, 80, 80)%}
         {% endif %}
-        
+
         {% if favicon != '' %}
-        <link rel="shortcut icon" href="{{favicon}}" />
-        <link rel="icon" href="{{favicon}}" sizes="any" type="image/svg+xml" />
+            <link rel="shortcut icon" href="{{favicon}}" />
+            <link rel="icon" href="{{favicon}}" sizes="any" type="image/svg+xml" />
         {% endif %}
-        
+
         <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700|Open+Sans:400,600,700" rel="stylesheet">
         <style>
-                body, .body, p {
-                        font-family: "Open Sans", sans-serif;
-                }
-                h1, h2, h3, h4, h5 {
-                        font-family: "Droid Serif", serif !important;
-                }
+            body, .body, p {
+                font-family: "Open Sans", sans-serif;
+            }
+            h1, h2, h3, h4, h5 {
+                font-family: "Droid Serif", serif !important;
+            }
         </style>
-        
+
         {% set primaryFont = networkData['styling']['fonts']['primaryFont'] %}
         {% set secFont = networkData['styling']['fonts']['secondaryFont'] %}
 
@@ -52,13 +52,15 @@
             <link href='https://fonts.googleapis.com/css?family={{secFont}}' rel='stylesheet' type='text/css'>
         {% endif %}
         
-        {% set isPage = 'content_box_page' in _Page.getBodyClass() %}
+        {% set isPage = 'content_box_page' in _Page.getBodyClass() and 'page-contact-us' not in _Page.getBodyClass() %}
+        
+        {% set bodyClass = _Page.getBodyClass() | replace({('article') : 'article__page'}) %}
         
         <link rel="alternate" type="application/rss+xml" title="{{_Network.getNetworkTitle()}} -  RSS Feeds" href="http://{{networkData.defaultDomain['domain']}}/feed/rss"/>
-        
-         <!--[if lte IE 8]><script type="text/javascript" src="{{networkData.templatePath}}/static/js/ie/ie.js"></script><![endif]-->
+
+ <!--[if lte IE 8]><script type="text/javascript" src="{{networkData.templatePath}}/static/js/ie/ie.js"></script><![endif]-->
         {% if _AppHelper.getApplicationEnv() == 'PROD'%}
-            <link rel="stylesheet" href="{{networkData.templatePath}}/static/deploy/output.min.css?rel=1492169978323" type="text/css" media="all">
+            <link rel="stylesheet" href="{{networkData.templatePath}}/static/deploy/output.min.css?rel=1494240843145" type="text/css" media="all">
         {% else %}
             <link type="text/css" rel="stylesheet" href="{{networkData.templatePath}}/static/plugins/jquery.fancybox/source/jquery.fancybox.css" />
             <link type="text/css" rel="stylesheet" href="{{networkData.templatePath}}/static/plugins/jquery.noty-2.3.8/demo/animate.css" />
@@ -72,50 +74,128 @@
 		<link href="{{_AppHelper.getAssetsStaticPath()}}/dist/vendors/ContentBox/box/box.css" rel="stylesheet" type="text/css" />
 		<link href="{{_AppHelper.getAssetsStaticPath()}}/dist/vendors/ContentBox/contentbuilder/contentbuilder.css" rel="stylesheet" type="text/css" />
 		<link href="{{_AppHelper.getAssetsStaticPath()}}/dist/vendors/ContentBox/contentbox/contentbox.css" rel="stylesheet" type="text/css" />
-		<link rel="stylesheet" href="{{networkData.templatePath}}/static/css/contentbox-breakup.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{{networkData.templatePath}}/static/css/contentbox-breakup.css?rel=1494240843145" type="text/css" media="all" />
 	{% endif %}
     
         {% set customCss = networkData['styling']['customStyleSheet'] %}
         {% if customCss != "" %}
-             <style type='text/css'>
+            <style type='text/css'>
                 {{customCss | raw}}
-                </style>
+            </style>
         {% endif %}
-    
 
-   {% if blogData.settings['GoogleAnalyticsID'] is defined and blogData.settings['GoogleAnalyticsID'] is not empty %}
-        <!-- Google Analytics -->
-        <script type="text/javascript">
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        {% set themeColors = networkData['styling']['colours'] %}
+        <style type="text/css">
+            {% if primaryFont != "" %}
+                body, .body, p {
+                    font-family: "{{primaryFont | replace({'+': ' '})}}" !important;
+                }
+            {% endif %}
+            {% if secFont != "" %}
+                h1, h2, h3, h4, h5, a.header__navigation-link {
+                    font-family: "{{secFont | replace({'+': ' '})}}" !important;
+                }
+            {% endif %}
+            {% if themeColors.linkColor != "" %}
+                a {
+                    color: {{themeColors.linkColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.linkHoverColor != "" %}
+                a:hover {
+                    color: {{themeColors.linkHoverColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.headingColor != "" %}
+                h1, h2, h3, h4, h5 {
+                    color: {{themeColors.headingColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.navigationColor != "" %}
+                .header__search-text, a.header__navigation-link {
+                    color: {{themeColors.navigationColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.navigationHoverColor != "" %}
+                a.header__navigation-link:hover {
+                    color: {{themeColors.navigationHoverColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.navigationActiveColor != "" %}
+                a.header__navigation-link.header__navigation-selected {
+                    color: {{themeColors.navigationActiveColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.navigationBgColor != "" %}
+                .header__navigation {
+                    background-color: {{themeColors.navigationBgColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.headerBgColor != "" %}
+                .header__heading {
+                    background-color: {{themeColors.headerBgColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.footerBgColor != "" %}
+                .footer {
+                    background-color: {{themeColors.footerBgColor}} !important;
+                }
+            {% endif %}
+            {% if themeColors.pageBgColor != "" %}
+                .body, .body > .section {
+                    background-color: {{themeColors.pageBgColor}} !important;
+                }
+                .sub_header {
+                    background-color: {{themeColors.pageBgColor}} !important;
+                }
+            {% endif %}
 
-            ga('create', '{{blogData.settings['GoogleAnalyticsID']}}', 'auto');
-            ga('send', 'pageview');
-        </script>
-        <!-- End Google Analytics -->
-    {% endif %}
-    {{ this.head() }}
-</head>
-<body class="body {{_Page.getBodyClass()}}">
-    {{ this.beginBody() }}
+            {% set customCss = networkData['styling']['customStyleSheet'] %}
+            {% if customCss != "" %}
+                {{customCss | raw }}
+            {% endif %}
+        </style>
+
+        {% if blogData.settings['GoogleAnalyticsID'] is defined and blogData.settings['GoogleAnalyticsID'] is not empty %}
+            <!-- Google Analytics -->
+            <script type="text/javascript">
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o),
+                            m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', '{{blogData.settings['GoogleAnalyticsID']}}', 'auto');
+                ga('send', 'pageview');
+            </script>
+            <!-- End Google Analytics -->
+        {% endif %}
+        {{ this.head() }}
+    </head>
+    <body class="body {{bodyClass}}">
+        {{ this.beginBody() }}
         <!-- Google Tag Manager(noscript) -->
         {% if networkData.thirdPartyIntegrations['googleTagManager'] | length > 0 %}
             {{networkData.thirdPartyIntegrations['googleTagManager']['noscript'] | raw}}
         {% endif %}
-        
+
         <div id="container">
             {{ this.render('partials/_header.twig', {network: networkData, blogData: blogData}) | raw }}
 
             <main id="content" role="main">
                 {{ content | raw}}
             </main>
-            
+
             <div class="modal" role="dialog">
                 <div class="modal-dialog modal-extlg" role="document">
-                        <div class="modal-content social-modal">
-                        </div>
+                    <div class="modal-content social-modal">
+                    </div>
                 </div>
             </div>
 
@@ -129,9 +209,9 @@
             </div>
         </div>
         {{ this.render('partials/account-modal.twig', {network: networkData}) | raw }}
-	{{ this.render('partials/_javascript.twig', {networkData: networkData}) | raw }}
-        
+        {{ this.render('partials/_javascript.twig', {networkData: networkData}) | raw }}
+
         {{ this.endBody() }}
-</body>
+    </body>
 </html>
 {{ this.endPage() }}

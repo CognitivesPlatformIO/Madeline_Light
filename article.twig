@@ -26,7 +26,7 @@
     </div>
     {% endif%}
     <div class="article__channel_wrap">
-        <div class="article__channel">{{article.label}}</div>
+        <div class="article__channel"><a href="{{article.blog['url']}}">{{article.label}}</a></div>
     </div>
     <h1 class="article__headline" itemprop="headline">{{ article.title}}</h1>
     <div class="article__date" itemprop="datePublished">{{article.publishedDate}}</div>
@@ -97,7 +97,10 @@
         <!-- Article Blody -->
         {{article.content | raw}}
         <!-- End Article Body -->
-        
+    </div>
+    {{this.render('partials/_cta.twig',{keyword: 'cta_2'}) | raw}}  
+    
+    <div class="article__container">
         <!-- Disqus block -->
         {% if network.thirdPartyIntegrations['disqus'] | length > 0 and network.thirdPartyIntegrations['disqus']['shortName'] != '' %}
             <h2 class="comments-header" id="comments"><span class="disqus-comment-count" data-disqus-url="{{article.url}}"></span><span class="hide">Comments</span></h2>
