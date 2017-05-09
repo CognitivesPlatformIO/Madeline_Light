@@ -37,22 +37,23 @@
                     <span class="blog__user-header__profile-image" {%if blogOwnerImage is not empty%}style="background-image:url('{{blogOwnerImage}}');"{%endif%} ></span>
                     <a href="{{_AppHelper.getUserProfileUrl(blogInfo.owner['username'])}}" class="blog__user-header__profile-name">By {{blogInfo.owner['display_name'] | raw}}</a>
                 </div>
-
-                {% if not _User.isGuest %}
-                    {% set isUserFollowingBlog = _User.isUserFollowing('blog', blogInfo.id) %}
-                    {% if isUserFollowingBlog %}
-                        <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="unfollow"  data-guid="{{blogInfo.guid}}">
-                            <span class="button button__blog-follow">Following</span>
-                        </a>
+                {% if not _Network.isNetworkClosed(networkData) %}
+                    {% if not _User.isGuest %}
+                        {% set isUserFollowingBlog = _User.isUserFollowing('blog', blogInfo.id) %}
+                        {% if isUserFollowingBlog %}
+                            <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="unfollow"  data-guid="{{blogInfo.guid}}">
+                                <span class="button button__blog-follow">Following</span>
+                            </a>
+                        {% else %}
+                            <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="follow"  data-guid="{{blogInfo.guid}}">
+                                <span class="button button__blog-follow">Follow</span>
+                            </a>
+                        {% endif %}
                     {% else %}
-                        <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="follow"  data-guid="{{blogInfo.guid}}">
-                            <span class="button button__blog-follow">Follow</span>
+                        <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container forceLoginModal">
+                            <span class="button button__blog-follow loginModal">Follow</span>
                         </a>
                     {% endif %}
-                {% else %}
-                    <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container forceLoginModal">
-                        <span class="button button__blog-follow loginModal">Follow</span>
-                    </a>
                 {% endif %}
             </div>
             <div class="blog__heading-container" {%if blogImage is not empty%}style="background-image:url('{{blogImage}}');background-size: cover;"{%endif%}>

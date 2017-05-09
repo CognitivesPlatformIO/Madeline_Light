@@ -23,12 +23,14 @@
                                     <div class="writer-item__description">{{writer.following['bio']}}</div>
                             </div>
                     </div>
-                    {% if not _User.isGuest() %}
-                        {% if( _User.getId() != writer.following['id'])%}
-                            <a class="writer-item__follow-button FollowUnfollowWriter {{buttonClass}}" data-guid="{{writer.following['guid']}}" data-status="{{btnStatus}}">{{btnTxt}}</a>
+                    {% if not _Network.isNetworkClosed(network) %}
+                        {% if not _User.isGuest() %}
+                            {% if( _User.getId() != writer.following['id'])%}
+                                <a class="writer-item__follow-button FollowUnfollowWriter {{buttonClass}}" data-guid="{{writer.following['guid']}}" data-status="{{btnStatus}}">{{btnTxt}}</a>
+                            {% endif %}
+                        {% else %}
+                            <a class="writer-item__follow-button active forceLoginModal">Follow</a>
                         {% endif %}
-                    {% else %}
-                        <a class="writer-item__follow-button active forceLoginModal">Follow</a>
                     {% endif %}
                 </div>
             {% endfor %}

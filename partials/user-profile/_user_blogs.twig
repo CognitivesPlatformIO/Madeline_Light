@@ -14,18 +14,20 @@
 	                        </div>
 	                    </div>
                                     <div class="channel-card__footer">
-                                        {% set buttonText = 'Follow' %}
-                                        {% set btnStatus = "follow" %}
-                                        {% set btnClass = "" %}
-                                        {% if not _User.isGuest() and _User.isUserFollowing('blog', blog.id) %}
-                                            {% set buttonText = 'Unfollow' %}
-                                            {% set btnStatus = "unfollow" %}
-                                            {% set btnClass = "active" %}
-                                        {% endif %}
-                                        {% if not _User.isGuest()  %}
-                                            <button class="channel-card__footer_follow-button FollowUnfollowBlog {{btnClass}}" data-guid="{{blog.guid}}" data-status="{{btnStatus}}">{{buttonText}}</button>
-                                        {% else %}
-                                            <button class="channel-card__footer_follow-button forceLoginModal" href="">Follow</button>
+                                        {% if not _Network.isNetworkClosed(network) %}
+                                            {% set buttonText = 'Follow' %}
+                                            {% set btnStatus = "follow" %}
+                                            {% set btnClass = "" %}
+                                            {% if not _User.isGuest() and _User.isUserFollowing('blog', blog.id) %}
+                                                {% set buttonText = 'Unfollow' %}
+                                                {% set btnStatus = "unfollow" %}
+                                                {% set btnClass = "active" %}
+                                            {% endif %}
+                                            {% if not _User.isGuest()  %}
+                                                <button class="channel-card__footer_follow-button FollowUnfollowBlog {{btnClass}}" data-guid="{{blog.guid}}" data-status="{{btnStatus}}">{{buttonText}}</button>
+                                            {% else %}
+                                                <button class="channel-card__footer_follow-button forceLoginModal" href="">Follow</button>
+                                            {% endif %}
                                         {% endif %}
                                         <button class="channel-card__footer_visit-button" onClick="window.location='{{blog.url}}';">Visit</button>
                                     </div>
