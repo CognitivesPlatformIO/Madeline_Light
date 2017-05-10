@@ -16,14 +16,14 @@
     <meta itemprop="url" content="{{article.url}}">
     <meta itemprop="dateModified" content="{{article.updatedAt}}">
     {% if publisher.logo is not empty %}
-    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
-        <meta itemprop="name" content="{{publisher.name}}"/>
-        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
-            <meta itemprop="url" content="{{publisher.logo}}"/>
-            <meta itemprop="width" content="{{publisher.width}}"/>
-            <meta itemprop="height" content="{{publisher.height}}"/>
+        <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+            <meta itemprop="name" content="{{publisher.name}}"/>
+            <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                <meta itemprop="url" content="{{publisher.logo}}"/>
+                <meta itemprop="width" content="{{publisher.width}}"/>
+                <meta itemprop="height" content="{{publisher.height}}"/>
+            </div>
         </div>
-    </div>
     {% endif%}
     <div class="article__channel_wrap">
         <div class="article__channel"><a href="{{article.blog['url']}}">{{article.label}}</a></div>
@@ -39,19 +39,19 @@
         </div>
         <a class="article__profile article__header-item" href="{{_AppHelper.getUserProfileUrl(article.createdBy['username'])}}">
             {% set profileImage = _Media.getMediaUrl(article.createdBy['media'], 80, 80, {radius: 'max', gravity: 'face', 'crop': 'thumb', 'type' : 'user'}) %}
-            
+
             <span class="article__userImage" style="background-image:url({{profileImage}})"></span>
             <span class="article__author" itemprop="author">By <span itemprop="name">{{article.createdBy['displayName']}}</span></span>
-            {% if not _Network.isNetworkClosed(network) %}
-                {% set status = 'follow' %}
-                {% set text = 'Follow' %}
-                {% set userFollowClass = '' %}
-                {% if not _User.isGuest() and _User.isUserFollowing('writer', article.createdBy['id'])%}
-                    {% set status = 'unfollow' %}
-                    {% set text = 'Unfollow' %}
-                    {% set userFollowClass = 'active' %}
-                {% endif %}
-                {% if _User.isGuest() %}
+                {% if not _Network.isNetworkClosed(network) %}
+                    {% set status = 'follow' %}
+                    {% set text = 'Follow' %}
+                    {% set userFollowClass = '' %}
+                    {% if not _User.isGuest() and _User.isUserFollowing('writer', article.createdBy['id'])%}
+                        {% set status = 'unfollow' %}
+                        {% set text = 'Unfollow' %}
+                        {% set userFollowClass = 'active' %}
+                    {% endif %}
+                    {% if _User.isGuest() %}
                     <span class="button button__follow button__follow--reverse forceLoginModal">Follow</span>
                 {% elseif article.createdBy['id'] != _User.getId() %}
                     <span class="button button__follow button__follow--reverse {{userFollowClass}} followArticleBtn" data-guid="{{article.createdBy['guid']}}" data-status="{{status}}">{{text}}</span>
@@ -75,10 +75,10 @@
                     <meta itemprop="height" content="{{image.height}}">
                     <meta itemprop="width" content="{{image.width}}">
                     {% if image.type == 'video' %} 
-                                {% set mediaUrl = "" %}
-                                {% if image.isSystemVideo == 'TRUE'%}
-                                    {% set mediaUrl = _Media.getMediaVideoUrl(image, 0, 0,{resource_type: 'video', format: 'mp4'})  %}
-                                {% endif %}
+                        {% set mediaUrl = "" %}
+                        {% if image.isSystemVideo == 'TRUE'%}
+                            {% set mediaUrl = _Media.getMediaVideoUrl(image, 0, 0,{resource_type: 'video', format: 'mp4'})  %}
+                        {% endif %}
                         <a href="javascript:void(0)" itemprop="video" class="video-overlay playVideo"  data-source="{{image.source}}"  data-url="{{mediaUrl}}" data-video-id="{{image.videoId}}" data-poster="{{image.path}}" data-caption="{{article.title | raw}}">
                             <div class="icons">
                                 <div class="icon"><i class="fa fa-play"></i></div>
@@ -100,12 +100,17 @@
         {{article.content | raw}}
         <!-- End Article Body -->
     </div>
+    <div class="clearfix"></div>
     {{this.render('partials/_cta.twig',{keyword: 'cta_2'}) | raw}}  
-    
+    <div class="clearfix"></div>
+
     <div class="article__container">
         <!-- Disqus block -->
         {% if network.thirdPartyIntegrations['disqus'] | length > 0 and network.thirdPartyIntegrations['disqus']['shortName'] != '' %}
-            <h2 class="comments-header" id="comments"><span class="disqus-comment-count" data-disqus-url="{{article.url}}"></span><span class="hide">Comments</span></h2>
+            <h2 class="comments-header" id="comments">
+                <span class="disqus-comment-count" data-disqus-url="{{article.url}}"></span>
+                <span class="hide">Comments</span>
+            </h2>
             {{this.render("partials/article/_disqus_comments.twig", {disqus: network.thirdPartyIntegrations['disqus'], userId: article.createdBy['id'], url:article.url, articleId: article.id}) | raw}}
         {% endif %}
         <!-- End Disqus Block -->
