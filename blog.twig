@@ -10,7 +10,7 @@
 {% set hasBlogImage = FALSE %}
 {% set blogImage = "" %}
 {% if blogInfo.media['cover']['id'] is not empty %}
-    {% set blogImage = _Media.getMediaUrl(blogInfo.media['cover'], 1160, 600, {gravity: 'north'}) %}
+    {% set blogImage = _Media.getMediaUrl(blogInfo.media['cover'], 1160, 600, {crop:"fill"}) %}
     {% set hasBlogImage = TRUE %}
 {% endif %}    
 {% set hasBlogThumbImage = FALSE %}
