@@ -9,33 +9,45 @@
 
 <script type="application/ld+json">
     {
-    "@context": "http://schema.org",
-    "@type": "NewsArticle",
-    "mainEntityOfPage": "{{article.url}}", 
-    "headline": "{{article.title}}",
-    "datePublished": "{{article.publishedDate}}",
-    "dateModified": "{{article.updatedAt}}",
-    "description": "{{article.content}}",
-    "author": {
-    "@type": "Person",
-    "name": "Sebastian Benz"
-    },
-    "publisher": {
-    "@type": "Organization",
-    "name": "{{publisher.name}}",
-    "logo": {
-    "@type": "ImageObject",
-    "url": "{{publisher.logo}}",
-    "width": {{publisher.width}},
-    "height": {{publisher.height}}
-    }
-    },
-    "image": {
-    "@type": "ImageObject",
-    "url": "{{publisher.logo}}",
-    "width": {{publisher.width}},
-    "height": {{publisher.height}}
-    }
+        "@context": "http://schema.org",
+        "@type": "NewsArticle",
+        "mainEntityOfPage": "{{article.url}}", 
+        "headline": "{{article.title}}",
+        "datePublished": "{{article.publishedDate}}",
+        "dateModified": "{{article.updatedAt}}",
+        "description": "{{article.content}}",
+        "author": {
+            "@type": "Person",
+            "name": "{{article.createdBy['displayName']}}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{publisher.name}}",
+            "logo": {
+            "@type": "ImageObject",
+                "url": "{{publisher.logo}}",
+                "width": {{publisher.width}},
+                "height": {{publisher.height}}
+            }
+        }
+        {% if article.media | length > 0 %}
+        ,
+        {% set i = 1 %}
+        {% for media in article.media %}
+        {% if media.type != 'video' %} 
+        "image": {
+            "@type": "ImageObject",
+            "url": "{{media.path}}",
+            "width": {{media.width}},
+            "height": {{media.height}}
+        }
+        {% if article.media | length > i %}
+        ,
+        {% endif %}
+        {% endif %}
+        {% set i = i+1 %}
+        {% endfor %}
+        {% endif %}
     }
 </script>
 <div class="article article--technology {{noImageClass}}">
@@ -56,36 +68,35 @@
     </div>
     <div class="article__image">
         {% if article.media|length %}
-        <amp-carousel width="1280" height="600" layout="responsive" type="slides" autoplay="" loop="">
-            {% for media in article.media %}
-                {% if media.type == 'video' %} 
-                    {% set mediaUrl = "" %}
-                    {% if media.isSystemVideo == 'TRUE'%}
-                        {% set mediaUrl = media.video_path  %}
-                    {% else %}
-                        {% if media.source == 'youtube' %}
-                            {% set mediaUrl = "https://www.youtube.com/embed/" ~ media.videoId  %}
+            <amp-carousel width="1280" height="600" layout="responsive" type="slides" autoplay="" loop="">
+                {% for media in article.media %}
+                    {% if media.type == 'video' %} 
+                        {% set mediaUrl = "" %}
+                        {% if media.isSystemVideo == 'TRUE'%}
+                            {% set mediaUrl = media.video_path  %}
+                            <div class="video-player">
+                                <amp-video id="myVideo" controls width="1280" height="550" layout="responsive" src="{{mediaUrl}}"></amp-video>
+
+                                <div id="myOverlay" class="click-to-play-overlay">
+                                    <div class="play-icon" role="button" tabindex="0" on="tap:myOverlay.hide, myVideo.play"></div>
+                                    <amp-img class="poster-image" layout="fill" src="{{media.path}}"></amp-img>
+                                </div>
+                            </div>
                         {% else %}
-                            {% set mediaUrl = "https://player.vimeo.com/video/" ~ media.videoId  %}
-                        {% endif %}
+                            {% if media.source == 'youtube' %}
+                                <amp-youtube data-videoid="{{media.videoId}}" layout="responsive" width="480" height="270"></amp-youtube>
+                            {% else %}
+                                <amp-vimeo data-videoid="{{media.videoId}}" layout="responsive" width="500" height="281"></amp-vimeo>
+                            {% endif %}
+                        {% endif %}                   
+                    {% else %}
+                        <figure>
+                            <amp-img src="{{media.path}}" class="" layout="fill"></amp-img>
+                        </figure>
                     {% endif %}
-
-                    <div class="video-player">
-                        <amp-video id="myVideo" controls width="1280" height="550" layout="responsive" src="{{mediaUrl}}"></amp-video>
-
-                        <div id="myOverlay" class="click-to-play-overlay">
-                            <div class="play-icon" role="button" tabindex="0" on="tap:myOverlay.hide, myVideo.play"></div>
-                            <amp-img class="poster-image" layout="fill" src="{{media.path}}"></amp-img>
-                        </div>
-                    </div>
-                {% else %}
-                    <figure>
-                        <amp-img src="{{media.path}}" class="" layout="fill"></amp-img>
-                    </figure>
-                {% endif %}
-            {% endfor %}
-        </amp-carousel>
-    {% endif %}
+                {% endfor %}
+            </amp-carousel>
+        {% endif %}
     </div>
 
     <div class="article__container">
