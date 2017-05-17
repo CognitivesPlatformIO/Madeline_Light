@@ -137,9 +137,8 @@
         line-height: 26px;
         display: none;
         font-family: $heading-font-family;
-        word-break: break-word;
+        word-break: normal;
         word-wrap: break-word;
-        word-break: break-all;
     }
     &__read-more {
         opacity: 0.69;
