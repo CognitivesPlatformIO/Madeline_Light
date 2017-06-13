@@ -81,7 +81,7 @@
     border-radius: 0;
     position: relative;
     .share-popup .share-popup__close {
-      width: auto;
+      width: auto !important;  
       margin: 0;
     }
   }
