@@ -121,11 +121,11 @@
             color: $white;
             z-index: 30;
             padding: 10px 20px;
-            @include desktop-sm {
+            /* @include desktop-sm {
                 width: 1170px !important;
                 margin-left: -70px;
                 margin-right: -70px;  
-            } 
+            } */
         }
     }
     blockquote {
