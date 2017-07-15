@@ -86,7 +86,7 @@
                             <h5 class="card__channel">{{article.label | raw}}</h5>
                         </div>
                         <h3 itemprop="headline" class="card__headline">{{article.title | raw}}</h3>
-                        <p class="card__text">{{Html.encode(article.excerpt) | raw}}</p>
+                        <p class="card__text">{{article.excerpt | raw}}</p>
                         <div class="card__read-time_wrap">
                             <p class="card__read-time"><span class="card__paragraph-icon"></span>{{Helper.renderReadingTime(article.readingTime) | raw}}</p>
                         </div>
