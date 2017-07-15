@@ -187,6 +187,7 @@
     &__author {
         @include text-sm();
         margin: auto 8px;
+        text-transform: capitalize;
     }
     &__header {
         margin-bottom: 35px;
