@@ -117,7 +117,7 @@
         {% endif %}
         <!-- End Disqus Block -->
     </div>
-    {% set popularArticles = _Article.getPopularArticles({ limit: 3, excludeArticleIds : articleId }) %}
+    {% set popularArticles = _Article.getPopularArticles({ limit: 3, excludeArticleIds : article.id }) %}
     {% if popularArticles|length > 0 %}
         <h2 class="text-center additional-articles__header">You may also like ...</h2>
     {% endif %}
