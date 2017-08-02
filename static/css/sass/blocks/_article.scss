@@ -153,7 +153,7 @@
         @include desktop-sm {
             max-width: 1030px;
         }
-        a {
+        a:not(.is-btn-ghost1, .is-btn-ghost2, .btn) {   
             border-bottom: 1px solid $body-text !important;
             color: $body-text;
             &:hover, &:focus {
@@ -187,6 +187,7 @@
     &__author {
         @include text-sm();
         margin: auto 8px;
+        text-transform: capitalize; 
     }
     &__header {
         margin-bottom: 35px;
