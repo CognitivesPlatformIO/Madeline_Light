@@ -41,10 +41,12 @@ var systemCardTemplate = '<div class="{{containerClass}}">'+
                             '<span>{{pinText}}</span>'+
                             '<img src="{{templatePath}}/static/images/icons/editor/pin.svg" alt="Pin-Unpin">'+
                         '</div>'+
-                        '<div class="admin-actions__action admin-actions__action--edit" onclick="window.location =\'{{{editUrl}}}\'; return false;">'+
-                            '<span>EDIT</span>'+
-                            '<img src="{{templatePath}}/static/images/icons/editor/edit.svg" alt="Edit">'+
-                        '</div>'+
+                        '{{#if userHasEditArticleAccess}}'+
+                            '<div class="admin-actions__action admin-actions__action--edit" onclick="window.location =\'{{{editUrl}}}\'; return false;">'+
+                                '<span>EDIT</span>'+
+                                '<img src="{{templatePath}}/static/images/icons/editor/edit.svg" alt="Edit">'+
+                            '</div>'+
+                        '{{/if}}'+
                     '</div>'+		
                     '{{/if}}'+
                     '<div class="card__content">'+
