@@ -4,8 +4,9 @@
 
 var systemCardTemplate = '<div class="{{containerClass}}">'+
     '<article class="swap card--article {{#unless hasMedia}} card__no-image {{/unless}} {{blogClass}} Article{{articleId}}"  data-id="{{articleId}}" data-position="{{position}}" data-social="0" data-article-image="{{imageUrl}}" data-article-text="{{title}}">'+
-        '<a  itemscope itemtype="http://schema.org/NewsArticle"  itemprop="url" href="{{url}}" class="card card--technology link"  data-id="{{articleId}}" data-position="{{position}}" data-social="0" data-article-image="{{imageUrl}}" data-article-text="{{title}}" {{#if hasMedia}}  style="background-image:url({{imageUrl}})" {{/if}}>'+
-        '<meta itemscope itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" itemid="{{url}}"/>'+
+        '<a  itemscope itemtype="http://schema.org/NewsArticle"  href="{{url}}" class="card card--technology link"  data-id="{{articleId}}" data-position="{{position}}" data-social="0" data-article-image="{{imageUrl}}" data-article-text="{{title}}" {{#if hasMedia}}  style="background-image:url({{imageUrl}})" {{/if}}>'+
+        '<meta itemprop="url" content="{{absoluteUrl}}" />'+
+        '<meta itemscope itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" itemid="{{absoluteUrl}}"/>'+
 	'{{#if hasMedia}}  '+
         '<div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">'+
             '<meta itemprop="url" content="{{featuredMedia.media.url}}"/>'+
@@ -41,10 +42,12 @@ var systemCardTemplate = '<div class="{{containerClass}}">'+
                             '<span>{{pinText}}</span>'+
                             '<img src="{{templatePath}}/static/images/icons/editor/pin.svg" alt="Pin-Unpin">'+
                         '</div>'+
-                        '<div class="admin-actions__action admin-actions__action--edit" onclick="window.location =\'{{{editUrl}}}\'; return false;">'+
-                            '<span>EDIT</span>'+
-                            '<img src="{{templatePath}}/static/images/icons/editor/edit.svg" alt="Edit">'+
-                        '</div>'+
+                        '{{#if userHasEditArticleAccess}}'+
+                            '<div class="admin-actions__action admin-actions__action--edit" onclick="window.location =\'{{{editUrl}}}\'; return false;">'+
+                                '<span>EDIT</span>'+
+                                '<img src="{{templatePath}}/static/images/icons/editor/edit.svg" alt="Edit">'+
+                            '</div>'+
+                        '{{/if}}'+
                     '</div>'+		
                     '{{/if}}'+
                     '<div class="card__content">'+
@@ -79,10 +82,12 @@ var socialCardTemplate =
                                         '<span>{{pinText}}</span>'+
                                         '<img src="{{templatePath}}/static/images/icons/editor/pin.svg" alt="Pin-Unpin">'+
                                     '</div>'+
-                                    '<div class="admin-actions__action admin-actions__action--edit editSocialPost" data-social="1" data-url ="/admin/social-funnel/update-social?guid={{social.blog.guid}}&socialguid={{social.guid}}"'+
-                                        '<span>EDIT</span>'+
-                                        '<img src="{{templatePath}}/static/images/icons/editor/edit.svg" alt="Edit">'+
-                                    '</div>'+
+                                    '{{#if userHasEditArticleAccess}}'+
+                                        '<div class="admin-actions__action admin-actions__action--edit editSocialPost" data-social="1" data-url ="/admin/social-funnel/update-social?guid={{social.blog.guid}}&socialguid={{social.guid}}"'+
+                                            '<span>EDIT</span>'+
+                                            '<img src="{{templatePath}}/static/images/icons/editor/edit.svg" alt="Edit">'+
+                                        '</div>'+
+                                    '{{/if}}'+
                                 '</div>'+
                         '{{/if}}'+
                         '<div class="card__content">'+
