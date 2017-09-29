@@ -4,6 +4,7 @@
 {% set network = _Network.getNetworkData() %}
 {% set limit = 20 %}
 {% set articles = _Search.searchArticles({'limit': limit, 'offset': 0, 'search': search}) %}
+{% set articlesCount = _Search.searchArticles({'countOnly': 1, 'search': search}) %}
 {% set homeUrl = network.networkLogoLinkUrl %}
 {% set articles = {} %} <!--  delete this line -->
 <div class="search__form-big">
@@ -13,7 +14,7 @@
     </form>
 </div>
 <div class="search__heading">
-    {{ articles|length }} Search result{% if articles|length > 1 %}s{% endif %}
+    {{ articlesCount }} Search result{% if articles|length > 1 %}s{% endif %}
 </div> 
 {% if articles|length > 0 %}
     <div class="search search__wrapper ajaxArticles" data-offset="{{limit}}">    
