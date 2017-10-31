@@ -6,7 +6,6 @@
 {% set articles = _Search.searchArticles({'limit': limit, 'offset': 0, 'search': search}) %}
 {% set articlesCount = _Search.searchArticles({'countOnly': 1, 'search': search}) %}
 {% set homeUrl = network.networkLogoLinkUrl %}
-{% set articles = {} %} <!--  delete this line -->
 <div class="search__form-big">
     <form action="/search" method="get">
         <input type="text" class="header__search-text" placeholder="Search" name="s" value="{{ search }}">
