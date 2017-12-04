@@ -4,7 +4,9 @@
 {% endif %}
 <header class="header">
     <div class="header__heading header__container">
-        {{ this.render('user-dropdown.twig', {network: network, user: user}) | raw }}
+        {% if not _Network.isNetworkClosed(network) %}
+            {{ this.render('user-dropdown.twig', {network: network, user: user}) | raw }}
+        {% endif %}
         <div class="header__heading-highlight"></div>
 
         <div class="header__heading-container">
@@ -80,19 +82,21 @@
                 {#<!--{% endif %}-->#}
             </div>
             <div class="header__heading--right">
-                {% if _User.isGuest() and not _Network.isNetworkClosed(network) %}
-                    <div class="header__heading-link" id="login">
-                        <a class="header__login__link">Login</a>
-                        |
-                        <a class="header__login__link header__login__link--signup sign-up__link">Sign Up</a>
-                    </div>
-                {% else %}
-                    <div class="header__heading-icons">
-                        <a href="javascript:void(0)"
-                           class="header__heading-link header__heading-link--profile"
-                           id="profile" style="background-image:url('{{_Media.getMediaUrl(user.profileMedia, 150, 150, {radius: 'max', gravity: 'face', 'crop': 'thumb', type:'user'})}}')">
-                        </a>
-                    </div>
+                {% if not _Network.isNetworkClosed(network) %}
+                    {% if _User.isGuest() %}
+                        <div class="header__heading-link" id="login">
+                            <a class="header__login__link">Login</a>
+                            |
+                            <a class="header__login__link header__login__link--signup sign-up__link">Sign Up</a>
+                        </div>
+                    {% else %}
+                        <div class="header__heading-icons">
+                            <a href="javascript:void(0)"
+                               class="header__heading-link header__heading-link--profile"
+                               id="profile" style="background-image:url('{{_Media.getMediaUrl(user.profileMedia, 150, 150, {radius: 'max', gravity: 'face', 'crop': 'thumb', type:'user'})}}')">
+                            </a>
+                        </div>
+                    {% endif %}
                 {% endif %}
                 <a href="javascript:void(0)" class="header__heading-link header__heading-link--responsive"></a>
                 <div class="header__heading--visible_desktop">
