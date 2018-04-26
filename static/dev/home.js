@@ -27,6 +27,7 @@ HomeController.Listing = (function ($) {
                 isSocialArticle: isSocial,
                 onSuccess: function (data) {
                     $(obj).data('status', ((existingStatus == 1) ? 0 : 1));
+                    $(obj).attr('data-status', ((existingStatus == 1) ? 0 : 1));
                     (existingStatus == 1) ? $(obj).removeClass('selected') : $(obj).addClass('selected');
                     var status = $(obj).data('status');
                     (status == 1)
@@ -440,18 +441,36 @@ HomeController.Blog = (function ($) {
 //        });
        
         //attach follow blog
-//        $('.followBlog').followBlog({
-//            'onSuccess': function(data, obj){
-//                var msg = ($(obj).data('status') === 'follow') ? 'Blog un-followed successfully.' : 'Blog followed successfully.';
-//                $().General_ShowNotification({message: msg});
-//            },
-//            'beforeSend': function(obj){
-//                $(obj).html('<span class="button button__blog-follow">Please wait...</span>');
-//            },
-//            'onComplete': function(obj){
-//                ($(obj).data('status') === 'follow') ? $(obj).html('<span class="button button__blog-follow">Follow</span>') : $(obj).html('<span class="button button__blog-follow">Following</span>');
-//            }
-//        });
+        $('.followBlog').on('click', function() {
+            var object = $(this);
+            var blogStatus = (object.data('status') === 1) ? 0 : 1;
+            object.data('status', blogStatus);
+            $.fn.followBlog({
+                blogGuid: object.data('guid'),
+                'onSuccess': function(data, obj){                                        
+                    var msg = (blogStatus === 1) ? 'Blog followed successfully.' : 'Blog un-followed successfully.';
+                    noty({
+                        type: "success",
+                        text: msg,
+                        layout: 'topRight',
+                        timeout: 2000,
+                        dismissQueue: true,
+                        animation: {
+                            open: 'animated bounceInRight', // jQuery animate function property object
+                            close: 'animated bounceOutRight', // jQuery animate function property object
+                            easing: 'swing', // easing
+                            speed: 500 // opening & closing animation speed
+                        }
+                    });
+                },
+                'beforeSend': function(obj){
+                    object.find('span.button__blog-follow').html('Please wait...');
+                },
+                'onComplete': function(obj){
+                    (blogStatus === 0) ? object.html('<span class="button button__blog-follow">Follow</span>') : object.html('<span class="button button__blog-follow">Following</span>');
+                }
+            }); 
+        });
         
         //attach follow user
 //        $('.followUser').followUser({

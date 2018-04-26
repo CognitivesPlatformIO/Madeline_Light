@@ -41,11 +41,11 @@
                     {% if not _User.isGuest %}
                         {% set isUserFollowingBlog = _User.isUserFollowing('blog', blogInfo.id) %}
                         {% if isUserFollowingBlog %}
-                            <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="unfollow"  data-guid="{{blogInfo.guid}}">
+                            <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="1"  data-guid="{{blogInfo.guid}}">
                                 <span class="button button__blog-follow">Following</span>
                             </a>
                         {% else %}
-                            <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="follow"  data-guid="{{blogInfo.guid}}">
+                            <a href="javascript:void(0)" class="blog__user-header__button-container blog__user-header__button-container--follow button-container followBlog" data-status="0"  data-guid="{{blogInfo.guid}}">
                                 <span class="button button__blog-follow">Follow</span>
                             </a>
                         {% endif %}
