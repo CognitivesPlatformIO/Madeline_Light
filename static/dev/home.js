@@ -12,24 +12,78 @@ var HomeController = (function ($) {
 HomeController.Listing = (function ($) {
 
     var bindPinUnpinArticle = function(){
-        $('.PinArticleBtn').Ajax_pinUnpinArticle({
-            onSuccess: function(data, obj){
-                var status = $(obj).data('status');
-                (status == 1) 
-                    ? $(obj).attr('title', 'Un-Pin Article') 
-                    : $(obj).attr('title', 'Pin Article');
-               (status == 1) 
-                    ? $(obj).find('span').first().html('UN-PIN') 
-                    : $(obj).find('span').first().html('PIN');
-            }
+        $('.PinArticleBtn').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var obj = $(this);
+            var articleId = parseInt($(obj).data('id'));
+            var position = parseInt($(obj).data('position'));
+            var existingStatus = $(obj).data('status');
+            var isSocial = $(obj).data('social');
+            $.fn.pinUnpinArticle({
+                articleId: articleId,
+                isPinned: existingStatus,
+                position: position,
+                isSocialArticle: isSocial,
+                onSuccess: function (data) {
+                    $(obj).data('status', ((existingStatus == 1) ? 0 : 1));
+                    (existingStatus == 1) ? $(obj).removeClass('selected') : $(obj).addClass('selected');
+                    var status = $(obj).data('status');
+                    (status == 1)
+                            ? $(obj).attr('title', 'Un-Pin Article')
+                            : $(obj).attr('title', 'Pin Article');
+                    (status == 1)
+                            ? $(obj).find('span').first().html('UN-PIN')
+                            : $(obj).find('span').first().html('PIN');
+                    var message = (status == 1)
+                            ? 'Article pinned successfully'
+                            : 'Article unpinned successfully';
+							
+					noty({
+                        type: 'success',
+                        text: message,
+                        layout: 'topRight',
+                        timeout: 2000,
+                        dismissQueue: true,
+                        animation: {
+                            open: 'animated bounceInRight', // jQuery animate function property object
+                            close: 'animated bounceOutRight', // jQuery animate function property object
+                            easing: 'swing', // easing
+                            speed: 500 // opening & closing animation speed
+                        }
+                    });
+                },
+                beforeSend: function () {
+                    $(obj).find('.fa').addClass('fa fa-spin fa-spinner').removeClass('fa-map-marker');
+                },
+                onComplete: function () {
+                    $(obj).find('.fa').removeClass('fa-spin fa-spinner').addClass('fa-map-marker');
+                }
+            });
         });
     };
     
     var bindDeleteHideArticle = function(){
-        $('.HideBlogArticle').Ajax_deleteArticle({
-            onSuccess: function(data, obj){
-                $(obj).closest('article').parent('div').remove();
+        $('.HideBlogArticle').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var obj = $(this);
+            var isSocial = $(obj).data('social');
+            var articleGuid = $(obj).data('guid');		
+            var msgStr = (isSocial == 1) ? "Do you really want to delete this article?" : "Do you really want to hide this article?";
+            var result = confirm(msgStr);
+            if (result !== true) {
+                    return;
             }
+            $.fn.deleteArticle({
+                articleGuid: articleGuid,
+                isSocialArticle: isSocial,
+                onSuccess: function (data) {
+                    $(obj).closest('article').parent('div').remove();
+                },
+                beforeSend: function (obj) {
+                }
+            });
         });
     };
     
@@ -144,7 +198,6 @@ HomeController.Listing = (function ($) {
                     var destinationPostId = parseInt($($this).data('id'));
                     var destinationIsSocial = parseInt($($this).data('social'));
                     
-                    
                     $(this).after(ui.draggable.clone().removeAttr('style'));
                     $(ui.draggable).after($(this).clone());
                     $(ui.helper).remove(); //destroy clone
@@ -190,7 +243,19 @@ HomeController.Listing = (function ($) {
                         dataType: 'json',
                         success: function(data){
                             if(data.success) {
-                                $.fn.General_ShowNotification({message: "Articles swapped successfully"});
+                                noty({
+                                    type: "success",
+                                    text: "Articles swapped successfully",
+                                    layout: 'topRight',
+                                    timeout: 2000,
+                                    dismissQueue: true,
+                                    animation: {
+                                        open: 'animated bounceInRight', // jQuery animate function property object
+                                        close: 'animated bounceOutRight', // jQuery animate function property object
+                                        easing: 'swing', // easing
+                                        speed: 500 // opening & closing animation speed
+                                    }
+                                });
                             }
                             
                             $(".card p, .card h1").dotdotdot();
@@ -201,7 +266,8 @@ HomeController.Listing = (function ($) {
                             bindPinUnpinArticle();
 
                             //Bind delete social article & hide system article
-                            bindDeleteHideArticle();                            
+                            bindDeleteHideArticle();
+                            bindSocialPostPopup();
                         },
                         error: function(jqXHR, textStatus, errorThrown){
                             $().General_ShowNotification({message: jqXHR.responseText, type: 'error', timeout: 4000});
@@ -222,8 +288,12 @@ HomeController.Listing = (function ($) {
         
         $('.loadMoreArticles').on('click', function(e){
             e.preventDefault();
+            e.stopPropagation();
             var btnObj = $(this);
-            $.fn.Ajax_LoadBlogArticles({
+            $.fn.LoadBlogArticles({
+                offset: $('.ajaxArticles').data('offset'),
+                limit: 20,
+                viewTotalNonPinnedPost: $('.ajaxArticles').data('existing-nonpinned-count'),
                 onSuccess: function(data, textStatus, jqXHR){
                     if (data.success == 1) {
                         $('.ajaxArticles').data('existing-nonpinned-count', data.existingNonPinnedCount);
@@ -244,7 +314,7 @@ HomeController.Listing = (function ($) {
                                data.articles[i]['blogClass']= data.articles[i].blog['title'].replace(' ', '').toLowerCase();
                             }  
                             
-                            var ImageUrl = $.image({media:data.articles[i]['featuredMedia'], mediaOptions:{width: 500 ,height:350, crop: 'limit'} });
+                            var ImageUrl = $.fn.image({media:data.articles[i]['featuredMedia'], mediaOptions:{width: 500 ,height:350, crop: 'limit'} });
                             data.articles[i]['imageUrl'] = ImageUrl;
 
                             Handlebars.registerHelper('encode', function(options) {
@@ -356,50 +426,50 @@ HomeController.Blog = (function ($) {
     
     var attachEvents = function () {
        
-       $('.followSection').followBlog({
-            'onSuccess': function(data, obj){
-                var msg = ($(obj).data('status') === 'follow') ? 'Section un-followed successfully.' : 'Section followed successfully.';
-                $().General_ShowNotification({message: msg});
-            },
-            'beforeSend': function(obj){
-                $(obj).html('Please wait...');
-            },
-            'onComplete': function(obj){
-                ($(obj).data('status') === 'follow') ? $(obj).html('Follow') : $(obj).html('Following');
-            }
-        });
+//       $('.followSection').followBlog({
+//            'onSuccess': function(data, obj){
+//                var msg = ($(obj).data('status') === 'follow') ? 'Section un-followed successfully.' : 'Section followed successfully.';
+//                $().General_ShowNotification({message: msg});
+//            },
+//            'beforeSend': function(obj){
+//                $(obj).html('Please wait...');
+//            },
+//            'onComplete': function(obj){
+//                ($(obj).data('status') === 'follow') ? $(obj).html('Follow') : $(obj).html('Following');
+//            }
+//        });
        
         //attach follow blog
-        $('.followBlog').followBlog({
-            'onSuccess': function(data, obj){
-                var msg = ($(obj).data('status') === 'follow') ? 'Blog un-followed successfully.' : 'Blog followed successfully.';
-                $().General_ShowNotification({message: msg});
-            },
-            'beforeSend': function(obj){
-                $(obj).html('<span class="button button__blog-follow">Please wait...</span>');
-            },
-            'onComplete': function(obj){
-                ($(obj).data('status') === 'follow') ? $(obj).html('<span class="button button__blog-follow">Follow</span>') : $(obj).html('<span class="button button__blog-follow">Following</span>');
-            }
-        });
+//        $('.followBlog').followBlog({
+//            'onSuccess': function(data, obj){
+//                var msg = ($(obj).data('status') === 'follow') ? 'Blog un-followed successfully.' : 'Blog followed successfully.';
+//                $().General_ShowNotification({message: msg});
+//            },
+//            'beforeSend': function(obj){
+//                $(obj).html('<span class="button button__blog-follow">Please wait...</span>');
+//            },
+//            'onComplete': function(obj){
+//                ($(obj).data('status') === 'follow') ? $(obj).html('<span class="button button__blog-follow">Follow</span>') : $(obj).html('<span class="button button__blog-follow">Following</span>');
+//            }
+//        });
         
         //attach follow user
-        $('.followUser').followUser({
-            'onSuccess': function(data, obj){
-                var msg = ($(obj).data('status') === 'follow') ? 'User un-followed successfully.' : 'User followed successfully.';
-                $().General_ShowNotification({message: msg});
-            },
-            'beforeSend': function(obj){
-                $(obj).html("Please wait...");
-            },
-            'onComplete': function(obj){
-                ($(obj).data('status') === 'follow') ? $(obj).html("Follow +") : $(obj).html("Following -");
-            },
-            'onError': function(data, msg){
-                //var msg = ($(obj).data('status') === 'follow') ? 'User un-followed successfully.' : 'User followed successfully.';
-                $().General_ShowNotification({message: msg, type: 'error', timeout: 4000});
-            },
-        });
+//        $('.followUser').followUser({
+//            'onSuccess': function(data, obj){
+//                var msg = ($(obj).data('status') === 'follow') ? 'User un-followed successfully.' : 'User followed successfully.';
+//                $().General_ShowNotification({message: msg});
+//            },
+//            'beforeSend': function(obj){
+//                $(obj).html("Please wait...");
+//            },
+//            'onComplete': function(obj){
+//                ($(obj).data('status') === 'follow') ? $(obj).html("Follow +") : $(obj).html("Following -");
+//            },
+//            'onError': function(data, msg){
+//                //var msg = ($(obj).data('status') === 'follow') ? 'User un-followed successfully.' : 'User followed successfully.';
+//                $().General_ShowNotification({message: msg, type: 'error', timeout: 4000});
+//            },
+//        });
         
     };
     

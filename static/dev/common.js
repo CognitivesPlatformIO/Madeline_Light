@@ -21,7 +21,7 @@
             }
         });
 
-        $('.playVideo').videoPlayer({});
+        //$('.playVideo').videoPlayer({});
     });
 
     $(document).on('click', '.forceLoginModal', function (e) {
@@ -153,20 +153,20 @@
     // /*
     //  * Follow Blog on article page
     //  */
-    $('.followArticleBtn').followUser({
-        onSuccess: function (data, obj) {
-            ($(obj).data('status') === 'follow') ? $(obj).html("Follow") : $(obj).html("Unfollow");
-            var message = ($(obj).data('status') === 'follow') ? 'Writer unfollowed successfully' : 'Writer followed successfully';
-            $.fn.General_ShowNotification({message: message});
-        },
-        onError: function (obj, errorMessage) {
-            $.fn.General_ShowNotification({message: errorMessage, type: 'error', timeout: 4000});
-            ($(obj).data('status') === 'follow') ? $(obj).html("Follow") : $(obj).html("Unfollow");
-        },
-        beforeSend: function (obj) {
-            $(obj).html('Wait...');
-        }
-    });
+//    $('.followArticleBtn').followUser({
+//        onSuccess: function (data, obj) {
+//            ($(obj).data('status') === 'follow') ? $(obj).html("Follow") : $(obj).html("Unfollow");
+//            var message = ($(obj).data('status') === 'follow') ? 'Writer unfollowed successfully' : 'Writer followed successfully';
+//            $.fn.General_ShowNotification({message: message});
+//        },
+//        onError: function (obj, errorMessage) {
+//            $.fn.General_ShowNotification({message: errorMessage, type: 'error', timeout: 4000});
+//            ($(obj).data('status') === 'follow') ? $(obj).html("Follow") : $(obj).html("Unfollow");
+//        },
+//        beforeSend: function (obj) {
+//            $(obj).html('Wait...');
+//        }
+//    });
 
 
 
@@ -211,22 +211,22 @@
      *                  USER EDIT PROFILE PAGE JS
      ************************************************************************************/
 
-    $('.uploadFileBtn').uploadFile({
-        onSuccess: function (data, obj) {
-            var resultJsonStr = JSON.stringify(data);
-
-            var imgClass = $(obj).data('imgcls');
-            $('.' + imgClass).css('background-image', 'url(' + data.url + ')');
-
-            var fieldId = $(obj).data('id');
-            $('#' + fieldId).val(resultJsonStr);
-
-            $().General_ShowNotification({message: 'Image added successfully'});
-        },
-        onError: function (obj, errorMessage) {
-            $().General_ShowNotification({message: errorMessage, type: 'error', timeout: 4000});
-        }
-    });
+//    $('.uploadFileBtn').uploadFile({
+//        onSuccess: function (data, obj) {
+//            var resultJsonStr = JSON.stringify(data);
+//
+//            var imgClass = $(obj).data('imgcls');
+//            $('.' + imgClass).css('background-image', 'url(' + data.url + ')');
+//
+//            var fieldId = $(obj).data('id');
+//            $('#' + fieldId).val(resultJsonStr);
+//
+//            $().General_ShowNotification({message: 'Image added successfully'});
+//        },
+//        onError: function (obj, errorMessage) {
+//            $().General_ShowNotification({message: errorMessage, type: 'error', timeout: 4000});
+//        }
+//    });
 
     $('.searchArticle').on('click', function (e) {
         var searchTerm = $('#searchArticleForm').find('input').val().trim();
