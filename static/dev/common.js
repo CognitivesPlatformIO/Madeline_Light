@@ -137,7 +137,19 @@
         shareLinkBox.select();
         try {
             var successful = document.execCommand('copy');
-            $.fn.General_ShowNotification({message: "Link copied successfully"});
+            noty({
+                type: "success",
+                text: "Link copied successfully",
+                layout: 'topRight',
+                timeout: 2000,
+                dismissQueue: true,
+                animation: {
+                    open: 'animated bounceInRight', // jQuery animate function property object
+                    close: 'animated bounceOutRight', // jQuery animate function property object
+                    easing: 'swing', // easing
+                    speed: 500 // opening & closing animation speed
+                }
+            });
         } catch (err) {
             console.log('Oops, unable to copy');
         }
