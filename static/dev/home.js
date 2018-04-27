@@ -427,28 +427,46 @@ HomeController.Blog = (function ($) {
     
     var attachEvents = function () {
        
-//       $('.followSection').followBlog({
-//            'onSuccess': function(data, obj){
-//                var msg = ($(obj).data('status') === 'follow') ? 'Section un-followed successfully.' : 'Section followed successfully.';
-//                $().General_ShowNotification({message: msg});
-//            },
-//            'beforeSend': function(obj){
-//                $(obj).html('Please wait...');
-//            },
-//            'onComplete': function(obj){
-//                ($(obj).data('status') === 'follow') ? $(obj).html('Follow') : $(obj).html('Following');
-//            }
-//        });
+       $('.followSection').on('click', function() {
+            var object = $(this);
+            var blogStatus = (object.data('status') === 'follow') ? 'unfollow' : 'follow';
+            object.data('status', blogStatus);
+            $.fn.followBlog({
+                blogGuid: object.data('guid'),
+                'onSuccess': function(data, obj){
+                    var msg = (object.data('status') === 'follow') ? 'Section un-followed successfully.' : 'Section followed successfully.';
+                    noty({
+                        type: "success",
+                        text: msg,
+                        layout: 'topRight',
+                        timeout: 2000,
+                        dismissQueue: true,
+                        animation: {
+                            open: 'animated bounceInRight', // jQuery animate function property object
+                            close: 'animated bounceOutRight', // jQuery animate function property object
+                            easing: 'swing', // easing
+                            speed: 500 // opening & closing animation speed
+                        }
+                    });
+                },
+                'beforeSend': function(obj){
+                    object.html('Please wait...');
+                },
+                'onComplete': function(obj){
+                    (object.data('status') === 'follow') ? object.html('Follow') : object.html('Following');
+                }
+            });
+       })
        
         //attach follow blog
         $('.followBlog').on('click', function() {
             var object = $(this);
-            var blogStatus = (object.data('status') === 1) ? 0 : 1;
+            var blogStatus = (object.data('status') === 'follow') ? 'unfollow' : 'follow';
             object.data('status', blogStatus);
             $.fn.followBlog({
                 blogGuid: object.data('guid'),
                 'onSuccess': function(data, obj){                                        
-                    var msg = (blogStatus === 1) ? 'Blog followed successfully.' : 'Blog un-followed successfully.';
+                    var msg = (blogStatus === 'unfollow') ? 'Blog followed successfully.' : 'Blog un-followed successfully.';
                     noty({
                         type: "success",
                         text: msg,
@@ -467,28 +485,58 @@ HomeController.Blog = (function ($) {
                     object.find('span.button__blog-follow').html('Please wait...');
                 },
                 'onComplete': function(obj){
-                    (blogStatus === 0) ? object.html('<span class="button button__blog-follow">Follow</span>') : object.html('<span class="button button__blog-follow">Following</span>');
+                    (blogStatus === 'follow') ? object.html('<span class="button button__blog-follow">Follow</span>') : object.html('<span class="button button__blog-follow">Following</span>');
                 }
             }); 
         });
         
         //attach follow user
-//        $('.followUser').followUser({
-//            'onSuccess': function(data, obj){
-//                var msg = ($(obj).data('status') === 'follow') ? 'User un-followed successfully.' : 'User followed successfully.';
-//                $().General_ShowNotification({message: msg});
-//            },
-//            'beforeSend': function(obj){
-//                $(obj).html("Please wait...");
-//            },
-//            'onComplete': function(obj){
-//                ($(obj).data('status') === 'follow') ? $(obj).html("Follow +") : $(obj).html("Following -");
-//            },
-//            'onError': function(data, msg){
-//                //var msg = ($(obj).data('status') === 'follow') ? 'User un-followed successfully.' : 'User followed successfully.';
-//                $().General_ShowNotification({message: msg, type: 'error', timeout: 4000});
-//            },
-//        });
+        $('.followUser').on('click', function(){
+            var object = $(this);
+            var userStatus = (object.data('status') === 'follow') ? 'unfollow' : 'follow';
+            object.data('status', userStatus);
+            $.fn.followUser({
+                userGuid: object.data('guid'),
+                'onSuccess': function(data, obj){
+                    var msg = (object.data('status') === 'follow') ? 'User un-followed successfully.' : 'User followed successfully.';
+                    noty({
+                        type: "success",
+                        text: msg,
+                        layout: 'topRight',
+                        timeout: 2000,
+                        dismissQueue: true,
+                        animation: {
+                            open: 'animated bounceInRight', // jQuery animate function property object
+                            close: 'animated bounceOutRight', // jQuery animate function property object
+                            easing: 'swing', // easing
+                            speed: 500 // opening & closing animation speed
+                        }
+                    });
+                },
+                'beforeSend': function(obj){
+                    object.html("Please wait...");
+                },
+                'onComplete': function(obj){
+                    (object.data('status') === 'follow') ? object.html("Follow +") : object.html("Following -");
+                },
+                'onError': function(data, msg){
+                    //var msg = ($(obj).data('status') === 'follow') ? 'User un-followed successfully.' : 'User followed successfully.';
+                    noty({
+                        type: "error",
+                        text: msg,
+                        layout: 'topRight',
+                        timeout: 2000,
+                        dismissQueue: true,
+                        animation: {
+                            open: 'animated bounceInRight', // jQuery animate function property object
+                            close: 'animated bounceOutRight', // jQuery animate function property object
+                            easing: 'swing', // easing
+                            speed: 500 // opening & closing animation speed
+                        }
+                    });
+                },
+            });
+        });
         
     };
     
